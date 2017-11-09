@@ -1,1 +1,2 @@
 device "iPhone 6"
+include_simulator_logs false

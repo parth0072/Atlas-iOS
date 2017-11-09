@@ -32,6 +32,8 @@
 #import "ATLMediaAttachment.h"
 #import "ATLLocationManager.h"
 #import "LYRIdentity+ATLParticipant.h"
+#import "UIView+ATLHelpers.h"
+#import "UICollectionView+ATLHelpers.h"
 
 @interface ATLConversationViewController () <UICollectionViewDataSource, UICollectionViewDelegate, CLLocationManagerDelegate>
 
@@ -125,10 +127,12 @@ static NSInteger const ATLPhotoActionSheet = 1000;
 {
     [super loadView];
     // Collection View Setup
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
     self.collectionView = [[ATLConversationCollectionView alloc] initWithFrame:CGRectZero
-                                                          collectionViewLayout:[[UICollectionViewFlowLayout alloc] init]];
+                                                          collectionViewLayout:flowLayout];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
+    [self.collectionView atl_setupContentInsetAdjustmentBehavior];
 }
 
 - (void)setLayerClient:(LYRClient *)layerClient
@@ -366,7 +370,7 @@ static NSInteger const ATLPhotoActionSheet = 1000;
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [self heightForMessageAtIndexPath:indexPath];
+    return [self sizeForMessageAtIndexPath:indexPath];
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -901,6 +905,15 @@ static NSInteger const ATLPhotoActionSheet = 1000;
 {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self.collectionView.collectionViewLayout invalidateLayout];
+    [self.inputAccessoryView setNeedsLayout];
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size
+       withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [self.collectionView.collectionViewLayout invalidateLayout];
+    [self.inputAccessoryView setNeedsLayout];
 }
 
 #pragma mark - ATLAddressBarViewControllerDelegate
@@ -1115,9 +1128,10 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     }
 }
 
-- (CGSize)heightForMessageAtIndexPath:(NSIndexPath *)indexPath
+- (CGSize)sizeForMessageAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat width = self.collectionView.bounds.size.width;
+    UIEdgeInsets contentInset = self.collectionView.atl_adjustedContentInset;
+    CGFloat width = self.collectionView.bounds.size.width - contentInset.left - contentInset.right;
     CGFloat height = 0;
     if ([self.delegate respondsToSelector:@selector(conversationViewController:heightForMessage:withCellWidth:)]) {
         LYRMessage *message = [self.conversationDataSource messageAtCollectionViewIndexPath:indexPath];

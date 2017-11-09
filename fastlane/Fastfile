@@ -11,7 +11,7 @@ platform :ios do
   lane :test do
     scan(
       scheme: "AtlasHost"
-    ) 
+    )
     scan(
       scheme: "Programmatic"
     )

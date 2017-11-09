@@ -1,5 +1,5 @@
 source "http://rubygems.org"
-ruby '2.3.1'
+ruby '2.3.5'
 
 gem "fastlane"
 gem "rake", "~> 10.5.0"

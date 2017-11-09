@@ -1,9 +1,9 @@
 machine:
   xcode:
-    version: 8.2
+    version: 9.0
 dependencies:
   pre:
     - gem install bundler
 test:
-  override: 
+  override:
     - bundle exec fastlane test
