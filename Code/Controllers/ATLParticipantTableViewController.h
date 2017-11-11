@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  @abstract Informs the delegate that a search has been made with the following search string.
  @param participantTableViewController The participant table view controller in which the search was made.
- @param searchText The search string that was just used for search.
+ @param searchString The search string that was just used for search.
  @param completion The completion block that should be called when the results are fetched from the search.
  */
 - (void)participantTableViewController:(ATLParticipantTableViewController *)participantTableViewController didSearchWithString:(NSString *)searchText completion:(void (^)(NSSet *filteredParticipants))completion;

@@ -43,7 +43,7 @@ NSData *ATLMediaAttachmentDataFromInputStream(NSInputStream *inputStream);
 /**
  @abstract Generates a thumbnail from the desired video by taking a still
    snapshot from a frame located at the first second in the video.
- @param videoFileURL File path of the video asset in a form of an `NSURL`
+ @param fileURL File path of the video asset in a form of an `NSURL`
  @return Returns a thumbnail image in a form of an `NSUImage`; In case of a
    failure, function returns `nil`.
  */
@@ -51,7 +51,7 @@ UIImage *ATLMediaAttachmentGenerateThumbnailFromVideoFileURL(NSURL *videoFileURL
 
 /**
  @abstract Extracts the video orientation based on assetTtrack's affine transform.
- @param assetVideoTrack The `AVAssetTrack` for which to extract the video orientation from.
+ @param assetTrack The `AVAssetTrack` for which to extract the video orientation from.
  @return Orientation information in a form of `UIImageOrientation`.
  */
 UIImageOrientation ATLMediaAttachmentVideoOrientationForAVAssetTrack(AVAssetTrack *assetVideoTrack);

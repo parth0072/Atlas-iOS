@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  @abstract Creates a new `ATLMediaAttachment` instance of type `ATLMediaAttachmentTypeImage` based on `UIImage`.
- @param image Image in a form of `UIImage`.
+ @param assetURL Image in a form of `UIImage`.
  @param metadata The metadata that will be attached to the image content (such as EXIF).
  @param thumbnailSize The size of the thumbnail.
  @return Instance of `ATLMediaAttachment` containing the streams.

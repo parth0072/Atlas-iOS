@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  @abstract Notifies the data set that a property of an exiting participant in the set has changed. The data set responds by recalculating its section information if the property change affects the sort order of the data set.
  @param participant The participant that has been modified.
- @param property The name of the property of the participant that has changed.
+ @param participant The name of the property of the participant that has changed.
  */
 - (void)particpant:(id<ATLParticipant>)participant updatedProperty:(NSString *)property;
 

@@ -43,14 +43,14 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 /**
  @abstract Informs the delegate that a user successfully sent an `LYRMessage` object.
- @param viewController The `ATLConversationViewController` in which the message was sent.
+ @param conversationViewController The `ATLConversationViewController` in which the message was sent.
  @param message The `LYRMessage` object that was sent via Layer.
  */
 - (void)conversationViewController:(ATLConversationViewController *)viewController didSendMessage:(LYRMessage *)message;
 
 /**
  @abstract Informs the delegate that an `LYRMessage` object send attempt failed.
- @param viewController The `ATLConversationViewController` in which the message failed to send.
+ @param conversationViewController The `ATLConversationViewController` in which the message failed to send.
  @param message The `LYRMessage` object which was attempted to be sent via Layer.
  @param error The `NSError` object describing why send failed.
  */
@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  @abstract Informs the delegate that an `LYRMessage` object was tapped.
- @param viewController The `ATLConversationViewController` in which the message failed to send.
+ @param conversationViewController The `ATLConversationViewController` in which the message failed to send.
  @param message The `LYRMessage` object which that was tapped.
  */
 - (void)conversationViewController:(ATLConversationViewController *)viewController didSelectMessage:(LYRMessage *)message;
@@ -76,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  @abstract Informs the delegate of a cell being configured for the specified message.
- @param conversationViewController The `ATLConversationViewController` where the message cell will appear.
+ @param viewController The `ATLConversationViewController` where the message cell will appear.
  @param cell The `UICollectionViewCell` object that confirms to the `ATLMessagePresenting` protocol that will be displayed in the controller.
  @param message The `LYRMessage` object that will be displayed in the cell.
  @discussion Applications should implement this method if they want add further configuration that is not set up during cell initialization, such as gesture recognizers.
@@ -110,7 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  @abstract Asks the data source for an object conforming to the `ATLParticipant` protocol for a given identifier.
  @param conversationViewController The `ATLConversationViewController` requesting the object.
- @param identity The participant identity.
+ @param participantForIdentity The participant identity.
  @return An object conforming to the `ATLParticipant` protocol.
  */
 - (id<ATLParticipant>)conversationViewController:(ATLConversationViewController *)conversationViewController participantForIdentity:(LYRIdentity *)identity;
