@@ -83,7 +83,9 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
 {
     self = [super initWithCoder:decoder];
     if (self) {
+        
         [self lyr_commonInit];
+        
     }
     return self;
 }
@@ -97,6 +99,7 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
     _rowHeight = 76.0f;
     _shouldDisplaySearchController = YES;
     _hasAppeared = NO;
+    [self.tableView setBackgroundColor:[UIColor blackColor]];
 }
 
 - (id)init
@@ -217,6 +220,7 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
     if (!class_conformsToProtocol(cellClass, @protocol(ATLConversationPresenting))) {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Cell class must conform to ATLConversationPresenting" userInfo:nil];
     }
+
     _cellClass = cellClass;
 }
 
@@ -330,6 +334,11 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
     NSString *reuseIdentifier = [self reuseIdentifierForConversation:nil atIndexPath:indexPath];
     
     UITableViewCell<ATLConversationPresenting> *conversationCell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
+    
+    //parth
+    //[conversationCell setBackgroundColor:[UIColor blackColor]];
+    
+    
     [self configureCell:conversationCell atIndexPath:indexPath];
     return conversationCell;
 }

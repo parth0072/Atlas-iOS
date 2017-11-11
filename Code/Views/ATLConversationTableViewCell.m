@@ -112,7 +112,9 @@ static CGFloat const ATLChevronIconViewRightPadding = 14.0f;
 
 - (void)lyr_commonInit
 {
+    
     self.backgroundColor = _cellBackgroundColor;
+    
     
     // Initialize Avatar Image
     _conversationImageView = [[ATLAvatarView alloc] init];
@@ -264,6 +266,8 @@ static CGFloat const ATLChevronIconViewRightPadding = 14.0f;
 - (void)updateWithLastMessageText:(NSString *)lastMessageText
 {
     self.lastMessageLabel.attributedText = [self attributedStringForMessageText:lastMessageText];
+    //parth
+    [self.lastMessageLabel setTextColor:[UIColor colorWithRed:145.0/255 green:145.0/255 blue:145.0/255 alpha:1]];
 }
 
 - (NSAttributedString *)attributedStringForMessageText:(NSString *)messageText
@@ -299,6 +303,8 @@ static CGFloat const ATLChevronIconViewRightPadding = 14.0f;
 {
     self.accessibilityLabel = conversationTitle;
     self.conversationTitleLabel.text = conversationTitle;
+    //parth
+    [self.conversationTitleLabel setTextColor:[UIColor colorWithRed:235.0/255 green:30.0/255 blue:86.0/255 alpha:1]];
 }
 
 #pragma mark - Helpers
