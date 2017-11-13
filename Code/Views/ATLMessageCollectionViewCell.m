@@ -70,6 +70,7 @@ NSInteger const kATLSharedCellTag = 1000;
 
 - (id)initWithFrame:(CGRect)frame
 {
+    //parth uset this card for edit layer chat cell in conversation view controller
     self = [super initWithFrame:frame];
     if (self) {
         [self lyr_commonInit];

@@ -161,6 +161,8 @@ CGFloat const ATLAvatarImageTailPadding = 4.0f;
         [self.contentView removeConstraint:self.bubbleWithoutAvatarLeadConstraint];
     }
     
+    //parth
+    
     switch (cellType) {
         case ATLIncomingCellType:
             [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.avatarView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:ATLAvatarImageLeadPadding]];
