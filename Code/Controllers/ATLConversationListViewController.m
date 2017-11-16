@@ -334,6 +334,7 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
     [self configureCell:conversationCell atIndexPath:indexPath];
     
     //parth
+    [conversationCell setSelectionStyle:UITableViewCellSelectionStyleNone];
     [conversationCell setBackgroundColor:[UIColor blackColor]];
     return conversationCell;
 }

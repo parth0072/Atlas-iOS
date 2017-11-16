@@ -40,6 +40,10 @@ extern NSString *const ATLMIMETypeDate;               // text/date
 extern NSString *const ATLMIMETypeVideoMP4;           // video/mp4
 extern NSUInteger const ATLDefaultThumbnailSize;      // 512px
 extern NSUInteger const ATLDefaultGIFThumbnailSize;   // 64px
+//parth
+
+
+extern NSString *const ATLMIMETypeImageoffer; //@"image/offer";
 
 extern NSString *const ATLPasteboardImageKey;
 extern NSString *const ATLImagePreviewWidthKey;

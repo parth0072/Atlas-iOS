@@ -122,6 +122,9 @@ NSInteger const kATLSharedCellTag = 1000;
         [self configureBubbleViewForLocationContent];
     } else if ([messagePart.MIMEType isEqualToString:ATLMIMETypeVideoMP4]) {
         [self configureBubbleViewForVideoContent];
+    }else if ([messagePart.MIMEType isEqualToString:ATLMIMETypeImageoffer])
+    {
+        
     }
     
 }

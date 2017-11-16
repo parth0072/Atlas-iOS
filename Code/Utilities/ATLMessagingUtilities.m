@@ -30,6 +30,8 @@ NSString *const ATLMIMETypeImageGIF = @"image/gif";
 NSString *const ATLMIMETypeVideoQuickTime = @"video/quicktime";
 NSString *const ATLMIMETypeImageSize = @"application/json+imageSize";
 NSString *const ATLMIMETypeImageJPEG = @"image/jpeg";
+//parth
+NSString *const ATLMIMETypeImageoffer = @"image/offer";
 NSString *const ATLMIMETypeImageJPEGPreview = @"image/jpeg+preview";
 NSString *const ATLMIMETypeImageGIFPreview = @"image/gif+preview";
 NSString *const ATLMIMETypeLocation = @"location/coordinate";

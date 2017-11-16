@@ -108,6 +108,7 @@ static NSInteger const ATLPhotoActionSheet = 1000;
 
 - (void)lyr_commonInit
 {
+    
     _dateDisplayTimeInterval = 60*60;
     _marksMessagesAsRead = YES;
     _shouldDisplayUsernameForOneOtherParticipant = NO;
@@ -356,9 +357,15 @@ static NSInteger const ATLPhotoActionSheet = 1000;
 }
 
 #pragma mark - UICollectionViewDelegate
+    
+    
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    LYRMessage *message = [self.conversationDataSource messageAtCollectionViewIndexPath:indexPath];
+    NSString *reuseIdentifier = [self reuseIdentifierForMessage:message atIndexPath:indexPath];
+    UICollectionViewCell<ATLMessagePresenting> *cell =  [self.collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    [cell setBackgroundColor:[UIColor clearColor]];
     [self notifyDelegateOfMessageSelection:[self.conversationDataSource messageAtCollectionViewIndexPath:indexPath]];
 }
 
@@ -734,10 +741,14 @@ static NSInteger const ATLPhotoActionSheet = 1000;
 //                
 //                SelectDateViewController *obj=[[SelectDateViewController alloc] initWithNibName:@"SelectDateViewController" bundle:nil];
 //                
-//                
+//
+                
 //                obj.isComingFromShare = true
 //                
 //                [self.navigationController pushViewController:coolViewCtrlObj  animated:YES];
+                
+              //  [self displayImagePickerWithSourceType:];
+
                 
                 
                 break;
@@ -749,6 +760,7 @@ static NSInteger const ATLPhotoActionSheet = 1000;
                 
             case 2:
                 [self captureLastPhotoTaken];
+            
                 break;
                 
             case 3:
@@ -765,6 +777,7 @@ static NSInteger const ATLPhotoActionSheet = 1000;
 
 - (void)displayImagePickerWithSourceType:(UIImagePickerControllerSourceType)sourceType;
 {
+    
     [self.messageInputToolbar.textInputView resignFirstResponder];
     BOOL pickerSourceTypeAvailable = [UIImagePickerController isSourceTypeAvailable:sourceType];
     if (pickerSourceTypeAvailable) {
@@ -805,7 +818,10 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     } else if (info[UIImagePickerControllerOriginalImage]) {
         // Image picked from the image picker.
         mediaAttachment = [ATLMediaAttachment mediaAttachmentWithImage:info[UIImagePickerControllerOriginalImage] metadata:info[UIImagePickerControllerMediaMetadata] thumbnailSize:ATLDefaultThumbnailSize];
-    } else {
+    }
+    
+    
+    else {
         return;
     }
     
