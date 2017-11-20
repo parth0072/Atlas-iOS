@@ -112,8 +112,24 @@ NSInteger const kATLSharedCellTag = 1000;
     [self updateBubbleWidth:[[self class] cellSizeForMessage:self.message inView:nil].width];
     if ([self messageContainsTextContent]) {
         [self configureBubbleViewForTextContent];
-    } else if ([messagePart.MIMEType isEqualToString:ATLMIMETypeImageJPEG]) {
-        [self configureBubbleViewForImageContent];
+    }else if ([messagePart.MIMEType isEqualToString:ATLMIMETypeImageoffer])
+    {
+        [self configureBubbleViewForOfferContent];
+        
+    }
+    //parth
+    else if ([messagePart.MIMEType isEqualToString:ATLMIMETypeImageJPEG]) {
+        if ([message.parts[2].MIMEType isEqualToString:ATLMIMETypeImageoffer])
+        {
+            [self configureBubbleViewForOfferContent];
+            
+        }
+        else
+        {
+            [self configureBubbleViewForImageContent];
+        }
+        
+        
     }else if ([messagePart.MIMEType isEqualToString:ATLMIMETypeImagePNG]) {
         [self configureBubbleViewForImageContent];
     } else if ([messagePart.MIMEType isEqualToString:ATLMIMETypeImageGIF]){
@@ -122,9 +138,6 @@ NSInteger const kATLSharedCellTag = 1000;
         [self configureBubbleViewForLocationContent];
     } else if ([messagePart.MIMEType isEqualToString:ATLMIMETypeVideoMP4]) {
         [self configureBubbleViewForVideoContent];
-    }else if ([messagePart.MIMEType isEqualToString:ATLMIMETypeImageoffer])
-    {
-        
     }
     
 }
@@ -137,6 +150,78 @@ NSInteger const kATLSharedCellTag = 1000;
     [self.bubbleView updateProgressIndicatorWithProgress:0.0 visible:NO animated:NO];
     self.accessibilityLabel = [NSString stringWithFormat:@"Message: %@", text];
 }
+
+//parth
+//MARK: configureview for offer content
+- (void)configureBubbleViewForOfferContent
+{
+    self.accessibilityLabel = ATLImageAccessibilityLabel;
+    
+    LYRMessagePart *fullResImagePart = ATLMessagePartForMIMEType(self.message, ATLMIMETypeImageJPEG);
+    if (!fullResImagePart) {
+        fullResImagePart = ATLMessagePartForMIMEType(self.message, ATLMIMETypeImagePNG);
+    }
+    
+    if (fullResImagePart && ((fullResImagePart.transferStatus == LYRContentTransferAwaitingUpload) || (fullResImagePart.transferStatus == LYRContentTransferUploading))) {
+        [self updateCellWithProgress:fullResImagePart.progress];
+    } else {
+        [self.bubbleView updateProgressIndicatorWithProgress:1.0 visible:NO animated:YES];
+    }
+    
+    __block UIImage *displayingImage;
+    __block LYRMessagePart *previewImagePart = ATLMessagePartForMIMEType(self.message, ATLMIMETypeImageJPEGPreview);
+    if (!previewImagePart) {
+        previewImagePart = fullResImagePart;  // If no preview image part found, resort to the full-resolution image.
+    }
+    
+    __weak typeof(self) weakSelf = self;
+    __block LYRMessage *previousMessage = weakSelf.message;
+    
+    dispatch_async(self.imageProcessingConcurrentQueue, ^{
+        
+        if (previewImagePart.fileURL) {
+            displayingImage = [UIImage imageWithContentsOfFile:previewImagePart.fileURL.path];
+        } else {
+            displayingImage = [UIImage imageWithData:previewImagePart.data];
+        }
+        
+        CGSize size = CGSizeZero;
+        LYRMessagePart *sizePart = ATLMessagePartForMIMEType(self.message, ATLMIMETypeImageSize);
+        if (sizePart) {
+            size = ATLImageSizeForJSONData(sizePart.data);
+            size = ATLConstrainImageSizeToCellSize(size);
+        }
+        if (CGSizeEqualToSize(size, CGSizeZero)) {
+            size = ATLImageSizeForData(fullResImagePart.data); // Resort to image's size, if no dimensions metadata message parts found.
+        }
+        
+        // Fall-back to programatically requesting for a content download of single message part messages (Android compatibility).
+        if ([[weakSelf.message valueForKeyPath:@"parts.MIMEType"] isEqual:@[ATLMIMETypeImageJPEG]]) {
+            if (fullResImagePart && (fullResImagePart.transferStatus == LYRContentTransferReadyForDownload)) {
+                NSError *error;
+                LYRProgress *progress = [fullResImagePart downloadContent:&error];
+                if (!progress) {
+                    NSLog(@"failed to request for a content download from the UI with error=%@", error);
+                }
+                [weakSelf.bubbleView updateProgressIndicatorWithProgress:0.0 visible:NO animated:NO];
+            } else if (fullResImagePart && (fullResImagePart.transferStatus == LYRContentTransferDownloading)) {
+                [self updateCellWithProgress:fullResImagePart.progress];
+            } else {
+                [weakSelf.bubbleView updateProgressIndicatorWithProgress:1.0 visible:NO animated:YES];
+            }
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (weakSelf.message != previousMessage) {
+                return;
+            }
+            [weakSelf.bubbleView updateWithImage:displayingImage width:size.width];
+        });
+    });
+}
+
+
+
 
 - (void)configureBubbleViewForImageContent
 {

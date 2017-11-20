@@ -353,9 +353,11 @@ static float const ATLMediaAttachmentDefaultThumbnailJPEGCompression = 0.5f;
         // Prepare the input stream and MIMEType for the metadata
         // about the asset.
         // --------------------------------------------------------------------
+        //parth
+        
         NSDictionary *imageMetadata = @{ @"width": @(image.size.width),
                                          @"height": @(image.size.height),
-                                         @"orientation": @(image.imageOrientation) };
+                                         @"orientation": @(image.imageOrientation),@"offerDic":metadata };
         NSError *JSONSerializerError;
         NSData *JSONData = [NSJSONSerialization dataWithJSONObject:imageMetadata options:NSJSONWritingPrettyPrinted error:&JSONSerializerError];
         if (JSONData) {
@@ -383,7 +385,7 @@ static float const ATLMediaAttachmentDefaultThumbnailJPEGCompression = 0.5f;
         // --------------------------------------------------------------------
         self.thumbnailSize = thumbnailSize;
         self.mediaType = ATLMediaAttachmentTypeImage;
-        self.textRepresentation = @"Attachment: Image";
+        self.textRepresentation = @"Attachment: Offer";
     }
     return self;
 }

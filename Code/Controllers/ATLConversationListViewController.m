@@ -27,6 +27,8 @@ static NSString *const ATLImageMIMETypePlaceholderText = @"Attachment: Image";
 static NSString *const ATLVideoMIMETypePlaceholderText = @"Attachment: Video";
 static NSString *const ATLLocationMIMETypePlaceholderText = @"Attachment: Location";
 static NSString *const ATLGIFMIMETypePlaceholderText = @"Attachment: GIF";
+//parth
+static NSString *const ATLOfferMIMETypePlaceholderText = @"Attachment:Prioritii Offer";
 static NSInteger const ATLConverstionListPaginationWindow = 30;
 static CGFloat const ATLConversationListLoadMoreConversationsDistanceThreshold = 200.0f;
 static CGFloat const ATLConversationListLoadingMoreConversationsIndicatorViewWidth = 30.0f;
@@ -661,7 +663,16 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
     if ([messagePart.MIMEType isEqualToString:ATLMIMETypeTextPlain]) {
         lastMessageText = [[NSString alloc] initWithData:messagePart.data encoding:NSUTF8StringEncoding];
     } else if ([messagePart.MIMEType isEqualToString:ATLMIMETypeImageJPEG]) {
-        lastMessageText = ATLLocalizedString(@"atl.conversationlist.lastMessage.text.text.key", ATLImageMIMETypePlaceholderText, nil);
+        //parth
+        if ([lastMessage.parts[2].MIMEType isEqualToString:ATLMIMETypeImageoffer])
+        {
+            lastMessageText = ATLLocalizedString(@"atl.conversationlist.lastMessage.text.offer.key", ATLOfferMIMETypePlaceholderText, nil);
+        }
+        else
+        {
+              lastMessageText = ATLLocalizedString(@"atl.conversationlist.lastMessage.text.text.key", ATLImageMIMETypePlaceholderText, nil);
+        }
+      
     } else if ([messagePart.MIMEType isEqualToString:ATLMIMETypeImagePNG]) {
         lastMessageText = ATLLocalizedString(@"atl.conversationlist.lastMessage.text.png.key", ATLImageMIMETypePlaceholderText, nil);
     } else if ([messagePart.MIMEType isEqualToString:ATLMIMETypeImageGIF]) {
@@ -670,7 +681,10 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
         lastMessageText = ATLLocalizedString(@"atl.conversationlist.lastMessage.text.location.key", ATLLocationMIMETypePlaceholderText, nil);
     } else if ([messagePart.MIMEType isEqualToString:ATLMIMETypeVideoMP4]) {
         lastMessageText = ATLLocalizedString(@"atl.conversationlist.lastMessage.text.video.key", ATLVideoMIMETypePlaceholderText, nil);
-    } else {
+    }else if ([messagePart.MIMEType isEqualToString:ATLMIMETypeImageoffer]) {
+        lastMessageText = ATLLocalizedString(@"atl.conversationlist.lastMessage.text.offer.key", ATLMIMETypeImageoffer, nil);
+    }
+    else {
         lastMessageText = ATLLocalizedString(@"atl.conversationlist.lastMessage.text.default.key", ATLImageMIMETypePlaceholderText, nil);
     }
     return lastMessageText;

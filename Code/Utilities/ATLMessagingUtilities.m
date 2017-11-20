@@ -206,6 +206,51 @@ LYRMessage *ATLMessageForParts(LYRClient *layerClient, NSArray *messageParts, NS
     return message;
 }
 
+
+
+
+
+#pragma mark - Message Parts Utilities
+
+NSArray *ATLMessagePartsWithMediaAttachmentOffer(ATLMediaAttachment *mediaAttachment)
+{
+    NSMutableArray *messageParts = [NSMutableArray array];
+    if (!mediaAttachment.mediaInputStream) {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Cannot create an LYRMessagePart with `nil` mediaInputStream." userInfo:nil];
+    }
+    //parth add image offer mime type
+    
+   
+    // Create the message part for the main media (should be on index zero).
+  
+     [messageParts addObject:[LYRMessagePart messagePartWithMIMEType:mediaAttachment.mediaMIMEType stream:mediaAttachment.mediaInputStream]];
+    
+    // If there's a thumbnail in the attachment, add it to the message parts on the second index.
+    if (mediaAttachment.thumbnailInputStream) {
+        [messageParts addObject:[LYRMessagePart messagePartWithMIMEType:mediaAttachment.thumbnailMIMEType stream:mediaAttachment.thumbnailInputStream]];
+    }
+    
+    // If there's any additional metadata, add it to the message parts on the third index.
+    if (mediaAttachment.metadataInputStream) {
+        
+        [messageParts addObject:[LYRMessagePart messagePartWithMIMEType:ATLMIMETypeImageoffer stream:mediaAttachment.metadataInputStream]];
+        // [messageParts addObject:[LYRMessagePart messagePartWithMIMEType:mediaAttachment.metadataMIMEType stream:mediaAttachment.metadataInputStream]];
+    }
+    
+    //[messageParts addObject:[LYRMessagePart messagePartWithMIMEType:ATLMIMETypeImageoffer stream:mediaAttachment.mediaInputStream]];
+    
+    return messageParts;
+    
+    
+    
+   
+}
+
+
+
+
+
+
 #pragma mark - Message Parts Utilities
 
 NSArray *ATLMessagePartsWithMediaAttachment(ATLMediaAttachment *mediaAttachment)
@@ -218,6 +263,24 @@ NSArray *ATLMessagePartsWithMediaAttachment(ATLMediaAttachment *mediaAttachment)
     if ([mediaAttachment.mediaMIMEType isEqualToString:ATLMIMETypeTextPlain]) {
         return @[[LYRMessagePart messagePartWithText:mediaAttachment.textRepresentation]];
     }
+    
+    //parth add image offer mime type
+    if ([mediaAttachment.mediaMIMEType isEqualToString:ATLMIMETypeImageoffer]) {
+        // Create the message part for the main media (should be on index zero).
+        [messageParts addObject:[LYRMessagePart messagePartWithMIMEType:ATLMIMETypeImageoffer stream:mediaAttachment.mediaInputStream]];
+        
+        // If there's a thumbnail in the attachment, add it to the message parts on the second index.
+        if (mediaAttachment.thumbnailInputStream) {
+            [messageParts addObject:[LYRMessagePart messagePartWithMIMEType:mediaAttachment.thumbnailMIMEType stream:mediaAttachment.thumbnailInputStream]];
+        }
+        
+        // If there's any additional metadata, add it to the message parts on the third index.
+        if (mediaAttachment.metadataInputStream) {
+            [messageParts addObject:[LYRMessagePart messagePartWithMIMEType:mediaAttachment.metadataMIMEType stream:mediaAttachment.metadataInputStream]];
+        }
+        return messageParts;
+    }
+
     
     // Create the message part for the main media (should be on index zero).
     [messageParts addObject:[LYRMessagePart messagePartWithMIMEType:mediaAttachment.mediaMIMEType stream:mediaAttachment.mediaInputStream]];
@@ -239,6 +302,8 @@ LYRMessagePart *ATLMessagePartForMIMEType(LYRMessage *message, NSString *MIMETyp
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"MIMEType == %@", MIMEType];
     return [[message.parts filteredArrayUsingPredicate:predicate] firstObject];
 }
+
+
 
 #pragma mark - Image Capture Utilities
 

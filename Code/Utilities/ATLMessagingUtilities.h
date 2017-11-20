@@ -115,6 +115,9 @@ LYRMessage *__nullable ATLMessageForParts(LYRClient *layerClient, NSArray <LYRMe
 
 NSArray <LYRMessagePart*> *ATLMessagePartsWithMediaAttachment(ATLMediaAttachment *mediaAttachment);
 
+//ATLMessagePartsWithMediaAttachmentOffer
+NSArray <LYRMessagePart*> *ATLMessagePartsWithMediaAttachmentOffer(ATLMediaAttachment *mediaAttachment);
+
 LYRMessagePart *__nullable ATLMessagePartForMIMEType(LYRMessage *message, NSString *MIMEType);
 
 //------------------------------
