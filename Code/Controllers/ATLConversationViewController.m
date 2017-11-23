@@ -749,6 +749,10 @@ static NSInteger const ATLPhotoActionSheet = 1000;
                 
               //  [self displayImagePickerWithSourceType:];
 
+                //parth
+                //post notification
+                //showSelectDateViewController
+                [NSNotificationCenter.defaultCenter postNotificationName:@"showSelectDateViewController" object:nil];
                 
                 
                 break;

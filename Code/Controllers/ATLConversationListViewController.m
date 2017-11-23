@@ -61,7 +61,12 @@ static UIView *ATLMakeLoadingMoreConversationsIndicatorView()
 NSString *const ATLConversationListViewControllerTitle = @"Messages";
 NSString *const ATLConversationTableViewAccessibilityLabel = @"Conversation Table View";
 NSString *const ATLConversationTableViewAccessibilityIdentifier = @"Conversation Table View Identifier";
-NSString *const ATLConversationListViewControllerDeletionModeMyDevices = @"My Devices";
+
+//parth
+//
+//NSString *const ATLConversationListViewControllerDeletionModeMyDevices = @"My Devices";
+NSString *const ATLConversationListViewControllerDeletionModeMyDevices = @"DELETE";
+
 NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyone";
 
 + (instancetype)conversationListViewControllerWithLayerClient:(LYRClient *)layerClient
@@ -343,6 +348,15 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
+
+    //parth
+    //prioritii conversation
+    LYRConversation *convesation = [self.queryController objectAtIndexPath:indexPath];
+    if ([convesation participants].count == 1)
+    {
+        NSLog(@"Prioritii Conversation");
+        return false;
+    }
     return self.allowsEditing;
 }
 
@@ -403,6 +417,8 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
 
 - (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+ 
+    
     NSMutableArray *actions = [NSMutableArray new];
     if ([self.dataSource respondsToSelector:@selector(conversationListViewController:rowActionsForDeletionModes:)]) {
         NSArray *customActions = [self.dataSource conversationListViewController:self rowActionsForDeletionModes:(NSArray<UITableViewRowAction *> *)self.deletionModes];
@@ -457,7 +473,10 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     self.conversationToDelete = [self.queryController objectAtIndexPath:indexPath];
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:ATLConversationListViewControllerDeletionModeEveryone otherButtonTitles:ATLConversationListViewControllerDeletionModeMyDevices, nil];
+    //parth
+    //UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:ATLConversationListViewControllerDeletionModeEveryone otherButtonTitles:ATLConversationListViewControllerDeletionModeMyDevices, nil];
+    //remove second username
+     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:ATLConversationListViewControllerDeletionModeMyDevices otherButtonTitles:nil, nil];
     [actionSheet showInView:self.view];
 }
 
