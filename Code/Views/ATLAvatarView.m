@@ -131,8 +131,10 @@ NSString *const ATLAvatarViewAccessibilityLabel = @"ATLAvatarViewAccessibilityLa
         self.initialsLabel.text = avatarItem.avatarInitials;
     }
     switch (avatarItem.presenceStatus) {
+            //parth
+            //set prioritii available
         case LYRIdentityPresenceStatusAvailable:
-            self.presenceStatusView.statusColor = [UIColor colorWithRed:79.0/255.0 green:191.0/255.0 blue:98.0/255.0 alpha:1.0];
+            self.presenceStatusView.statusColor = [UIColor colorWithRed:230.0/255 green:37.0/255 blue:84.0/255 alpha:1];
             self.presenceStatusView.mode = ATLMPresenceStatusViewModeFill;
             break;
         case LYRIdentityPresenceStatusBusy:
@@ -143,8 +145,11 @@ NSString *const ATLAvatarViewAccessibilityLabel = @"ATLAvatarViewAccessibilityLa
             self.presenceStatusView.statusColor = [UIColor colorWithRed:247.0/255.0 green:202.0/255.0 blue:64.0/255.0 alpha:1.0];
             self.presenceStatusView.mode = ATLMPresenceStatusViewModeFill;
             break;
+            //parth
+            //set clear color
         case LYRIdentityPresenceStatusInvisible:
-            self.presenceStatusView.statusColor = [UIColor colorWithRed:79.0/255.0 green:191.0/255.0 blue:98.0/255.0 alpha:1.0];
+            self.presenceStatusView.statusColor = [UIColor clearColor];
+            self.presenceStatusView.alpha = 0;
             self.presenceStatusView.mode = ATLMPresenceStatusViewModeBordered;
             break;
         case LYRIdentityPresenceStatusOffline:

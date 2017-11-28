@@ -611,7 +611,7 @@ static NSInteger const ATLPhotoActionSheet = 1000;
                                                              delegate:self
                                                     cancelButtonTitle:ATLLocalizedString(@"atl.conversation.toolbar.actionsheet.cancel.key", @"Cancel", nil)
                                                destructiveButtonTitle:nil
-                                                    otherButtonTitles:ATLLocalizedString(@"atl.conversation.toolbar.actionsheet.lastphoto.key", @"Share offer", nil),ATLLocalizedString(@"atl.conversation.toolbar.actionsheet.takephoto.key", @"Take Photo/Video", nil), ATLLocalizedString(@"atl.conversation.toolbar.actionsheet.lastphoto.key", @"Last Photo/Video", nil), ATLLocalizedString(@"atl.conversation.toolbar.actionsheet.library.key", @"Photo/Video Library", nil), nil];
+                                                    otherButtonTitles:ATLLocalizedString(@"atl.conversation.toolbar.actionsheet.lastphoto.key", @"Share offer", nil),ATLLocalizedString(@"atl.conversation.toolbar.actionsheet.takephoto.key", @"Take Photo/Video", nil),  ATLLocalizedString(@"atl.conversation.toolbar.actionsheet.library.key", @"Photo/Video Library", nil), nil];
     [actionSheet showInView:self.view];
     actionSheet.tag = ATLPhotoActionSheet;
 }
@@ -661,12 +661,18 @@ static NSInteger const ATLPhotoActionSheet = 1000;
 
 - (LYRMessage *)messageForMessageParts:(NSArray *)parts MIMEType:(NSString *)MIMEType pushText:(NSString *)pushText;
 {
-    NSString *senderName = [[self participantForIdentity:self.layerClient.authenticatedUser] displayName];
+    //parth
+  
+    NSString *senderName = [[NSUserDefaults standardUserDefaults] valueForKey:@"userFirstname"];
+  //  UserDefaults.standard.value(forKey: "userFirstname") as! String)
+    
+   //NSString *senderName = [[self participantForIdentity:self.layerClient.authenticatedUser] displayName];
     NSString *completePushText;
     if (!pushText) {
         if ([MIMEType isEqualToString:ATLMIMETypeImageGIF]) {
             completePushText = [NSString stringWithFormat:@"%@ %@", senderName, ATLDefaultPushAlertGIF];
         } else if ([MIMEType isEqualToString:ATLMIMETypeImagePNG] || [MIMEType isEqualToString:ATLMIMETypeImageJPEG]) {
+   
             completePushText = [NSString stringWithFormat:@"%@ %@", senderName, ATLDefaultPushAlertImage];
         } else if ([MIMEType isEqualToString:ATLMIMETypeLocation]) {
             completePushText = [NSString stringWithFormat:@"%@ %@", senderName, ATLDefaultPushAlertLocation];
@@ -678,7 +684,7 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     } else {
         completePushText = [NSString stringWithFormat:@"%@: %@", senderName, pushText];
     }
-    
+    NSLog(@"%@",senderName);
     LYRMessage *message = ATLMessageForParts(self.layerClient, parts, completePushText, ATLPushNotificationSoundName);
     return message;
 }
