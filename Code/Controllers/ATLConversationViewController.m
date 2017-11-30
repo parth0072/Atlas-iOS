@@ -150,6 +150,8 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     self.messageInputToolbar.inputToolBarDelegate = self;
     self.addressBarController.delegate = self;
     self.canDisableAddressBar = YES;
+    //parth hide display avatar item 
+    self.shouldDisplayAvatarItem = NO;
     [self atl_registerForNotifications];
 }
 
@@ -611,7 +613,7 @@ static NSInteger const ATLPhotoActionSheet = 1000;
                                                              delegate:self
                                                     cancelButtonTitle:ATLLocalizedString(@"atl.conversation.toolbar.actionsheet.cancel.key", @"Cancel", nil)
                                                destructiveButtonTitle:nil
-                                                    otherButtonTitles:ATLLocalizedString(@"atl.conversation.toolbar.actionsheet.lastphoto.key", @"Share offer", nil),ATLLocalizedString(@"atl.conversation.toolbar.actionsheet.takephoto.key", @"Take Photo/Video", nil),  ATLLocalizedString(@"atl.conversation.toolbar.actionsheet.library.key", @"Photo/Video Library", nil), nil];
+                                                    otherButtonTitles:ATLLocalizedString(@"atl.conversation.toolbar.actionsheet.lastphoto.key", @"Share offer", nil),ATLLocalizedString(@"atl.conversation.toolbar.actionsheet.takephoto.key", @"Take Photo/Video", nil),  ATLLocalizedString(@"atl.conversation.toolbar.actionsheet.library.key", @"Photo/Video Library", nil), @"Share Location",nil];
     [actionSheet showInView:self.view];
     actionSheet.tag = ATLPhotoActionSheet;
 }
@@ -742,19 +744,6 @@ static NSInteger const ATLPhotoActionSheet = 1000;
         switch (buttonIndex) {
                 
             case 0:
-                
-               
-//                
-//                SelectDateViewController *obj=[[SelectDateViewController alloc] initWithNibName:@"SelectDateViewController" bundle:nil];
-//                
-//
-                
-//                obj.isComingFromShare = true
-//                
-//                [self.navigationController pushViewController:coolViewCtrlObj  animated:YES];
-                
-              //  [self displayImagePickerWithSourceType:];
-
                 //parth
                 //post notification
                 //showSelectDateViewController
@@ -769,12 +758,20 @@ static NSInteger const ATLPhotoActionSheet = 1000;
                 break;
                 
             case 2:
-                [self captureLastPhotoTaken];
+                [self displayImagePickerWithSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+                break;
             
                 break;
                 
             case 3:
-                [self displayImagePickerWithSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+                //parth
+                //SHARE LOCATION
+                if (!self.conversation) {
+                    return;
+                    
+                }
+                 [self sendLocationMessage];
+                if (self.addressBarController) [self.addressBarController disable];
                 break;
                 
             default:
@@ -807,7 +804,10 @@ static NSInteger const ATLPhotoActionSheet = 1000;
             NSLog(@"Failed to capture last photo with error: %@", [error localizedDescription]);
         } else {
             ATLMediaAttachment *mediaAttachment = [ATLMediaAttachment mediaAttachmentWithAssetURL:assetURL thumbnailSize:ATLDefaultThumbnailSize];
-            [self.messageInputToolbar insertMediaAttachment:mediaAttachment withEndLineBreak:YES];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.messageInputToolbar insertMediaAttachment:mediaAttachment withEndLineBreak:YES];
+            });
+            //[self.messageInputToolbar insertMediaAttachment:mediaAttachment withEndLineBreak:YES];
         }
     });
 }
@@ -836,7 +836,10 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     }
     
     if (mediaAttachment) {
-        [self.messageInputToolbar insertMediaAttachment:mediaAttachment withEndLineBreak:YES];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.messageInputToolbar insertMediaAttachment:mediaAttachment withEndLineBreak:YES];
+        });
+       // [self.messageInputToolbar insertMediaAttachment:mediaAttachment withEndLineBreak:YES];
     }
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     [self.view becomeFirstResponder];

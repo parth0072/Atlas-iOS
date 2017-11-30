@@ -35,7 +35,10 @@ NSString *const ATLOutgoingMessageCellIdentifier = @"ATLOutgoingMessageCellIdent
 + (void)initialize
 {
     ATLOutgoingMessageCollectionViewCell *proxy = [self appearance];
-    proxy.bubbleViewColor = ATLBlueColor();
+    //SET BLUE COLOR BUBBLE VIEW
+    proxy.layer.borderWidth = 1.0f;
+    proxy.layer.borderColor = [UIColor whiteColor].CGColor;
+    proxy.bubbleViewColor = ATLGrayColor();
     proxy.messageTextColor = [UIColor whiteColor];
     proxy.messageLinkTextColor = [UIColor whiteColor];
 }

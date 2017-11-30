@@ -30,6 +30,18 @@ UIColor *ATLLightGrayColor()
     return [UIColor colorWithRed:240.0f/255.0f green:240.0f/255.0f blue:240.0f/255.0f alpha:1.0];
 }
 
+
+UIColor *ATLLBlueColor()
+{
+    return [UIColor blueColor];
+}
+
+UIColor *ATLLRedColor()
+{
+    return [UIColor redColor];
+}
+
+
 UIColor *ATLAddressBarGray()
 {
     return [UIColor colorWithRed:248.0f/255.0f green:248.0f/255.0f blue:248.0f/255.0f alpha:1.0];

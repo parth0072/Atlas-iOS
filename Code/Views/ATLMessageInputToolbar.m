@@ -72,10 +72,13 @@ static CGFloat const ATLButtonHeight = 28.0f;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         
         //parth
+        
         NSBundle *resourcesBundle = ATLResourcesBundle();
         self.leftAccessoryImage = [UIImage imageNamed:@"camera_dark" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
         self.rightAccessoryImage = [UIImage imageNamed:@"location_dark" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
-        self.displaysRightAccessoryImage = YES;
+        //parth
+        //hide display right accessory image
+        self.displaysRightAccessoryImage = NO;
         self.firstAppearance = YES;
         
         self.leftAccessoryButton = [[UIButton alloc] init];

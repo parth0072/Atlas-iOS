@@ -146,6 +146,7 @@ NSInteger const kATLSharedCellTag = 1000;
 {
     LYRMessagePart *messagePart = self.message.parts.firstObject;
     NSString *text = [[NSString alloc] initWithData:messagePart.data encoding:NSUTF8StringEncoding];
+    
     [self.bubbleView updateWithAttributedText:[self attributedStringForText:text]];
     [self.bubbleView updateProgressIndicatorWithProgress:0.0 visible:NO animated:NO];
     self.accessibilityLabel = [NSString stringWithFormat:@"Message: %@", text];
