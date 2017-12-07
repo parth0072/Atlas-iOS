@@ -28,6 +28,10 @@ CGFloat const ATLMessageCellHorizontalMargin = 16.0f;
 CGFloat const ATLAvatarImageLeadPadding = 12.0f;
 CGFloat const ATLAvatarImageTailPadding = 4.0f;
 
+//parth
+CGFloat const ATLBubbleCornerRadius = 17.0f;
+CGFloat const ATLBubbleCornerRadiusWithTime = 8.0f;
+
 @interface ATLBaseCollectionViewCell ()
 
 @property (nonatomic) NSLayoutConstraint *bubbleWithAvatarLeadConstraint;
@@ -36,6 +40,8 @@ CGFloat const ATLAvatarImageTailPadding = 4.0f;
 
 @property (nonatomic) BOOL messageSentState;
 @property (nonatomic) BOOL shouldDisplayAvatar;
+//parth
+@property (nonatomic) BOOL shouldDisplayTimeInMessages;
 
 @end
 
@@ -63,14 +69,18 @@ CGFloat const ATLAvatarImageTailPadding = 4.0f;
 {
     // Default UIAppearance
     _bubbleViewColor = ATLBlueColor();
-    _bubbleViewCornerRadius = 17.0f;
+    _bubbleViewCornerRadius = ATLBubbleCornerRadius;
     
     _bubbleView = [[ATLMessageBubbleView alloc] init];
     _bubbleView.translatesAutoresizingMaskIntoConstraints = NO;
     _bubbleView.layer.cornerRadius = _bubbleViewCornerRadius;
     _bubbleView.backgroundColor = _bubbleViewColor;
-    [self.contentView addSubview:_bubbleView];
+    _bubbleView.layer.borderColor = [UIColor redColor].CGColor;
+    //parth
     
+    //edit add bubble
+
+   [self.contentView addSubview:_bubbleView];
     _avatarView = [[ATLAvatarView alloc] init];
     _avatarView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:_avatarView];
@@ -126,6 +136,24 @@ CGFloat const ATLAvatarImageTailPadding = 4.0f;
     }
     [self setNeedsUpdateConstraints];
     self.shouldDisplayAvatar = shouldDisplayAvatarItem;
+}
+//parth
+
+- (void)updateTimeStampLabelWithAttributedText:(NSAttributedString *)attText {
+    [self.bubbleView updateTimeStampLabelWithAttributedText:attText];
+}
+
+- (void)shouldDisplayTimeInMessages:(BOOL)shouldDisplayTimeInMessages {
+    if(shouldDisplayTimeInMessages) {
+        // Lets check if user did not change corner radius to his own
+        if(_bubbleViewCornerRadius == ATLBubbleCornerRadius) {
+            // Then lets update it if it is as original one
+            [self setBubbleViewCornerRadius:ATLBubbleCornerRadiusWithTime];
+        }
+    }
+    
+    self.shouldDisplayTimeInMessages = shouldDisplayTimeInMessages;
+    [self.bubbleView shouldDisplayTimeInMessages:shouldDisplayTimeInMessages];
 }
 
 - (void)updateWithSender:(id<ATLParticipant>)sender

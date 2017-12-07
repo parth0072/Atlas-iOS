@@ -134,9 +134,16 @@ NS_ASSUME_NONNULL_BEGIN
  @return An `NSAttributedString` representing the give recipient status.
  @discussion The recipient status string will be displayed below message the most recent message sent by the authenticated user.
  */
+
 - (NSAttributedString *)conversationViewController:(ATLConversationViewController *)conversationViewController attributedStringForDisplayOfRecipientStatus:(NSDictionary *)recipientStatus;
 
 @optional
+
+- (NSAttributedString *)conversationViewController:(ATLConversationViewController *)conversationViewController attributedStringForDisplayOfTime:(NSDate *)time forOutgoingMessage:(BOOL)isOutgoing;
+
+
+- (BOOL)conversationViewControllerShouldDisplayTimeInMessages:(ATLConversationViewController *)conversationViewController;
+
 
 /**
  @abstract Asks the data source for the collection view cell reuse identifier for a message.

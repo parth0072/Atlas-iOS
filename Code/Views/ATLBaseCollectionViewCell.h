@@ -50,6 +50,9 @@ extern CGFloat const ATLMessageCellHorizontalMargin;
 /**
  @abstract The `LYRMessage` object passed in `ATLMessagePresenting` protocol `presentMessage:`.
  */
+
+@property (nonatomic, readonly) BOOL shouldDisplayTimeInMessages;
+
 @property (nonatomic) LYRMessage *message;
 
 /**
@@ -63,5 +66,4 @@ extern CGFloat const ATLMessageCellHorizontalMargin;
  right aligned and cells with `ATLIncomingCellType` will be left aligned.
  */
 - (void)configureCellForType:(ATLCellType)cellType;
-
-@end
+- (void)shouldDisplayTimeInMessages:(BOOL)shouldDisplayTimeInMessages;@end

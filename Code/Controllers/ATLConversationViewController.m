@@ -148,6 +148,8 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     
     [self configureControllerForConversation];
     self.messageInputToolbar.inputToolBarDelegate = self;
+    //parth
+    self.messageInputToolbar.barTintColor = [UIColor blackColor];
     self.addressBarController.delegate = self;
     self.canDisableAddressBar = YES;
     //parth hide display avatar item 
@@ -461,6 +463,11 @@ static NSInteger const ATLPhotoActionSheet = 1000;
 - (void)configureCell:(UICollectionViewCell<ATLMessagePresenting> *)cell forMessage:(LYRMessage *)message indexPath:(NSIndexPath *)indexPath
 {
     [cell presentMessage:message];
+    //parth
+    // Should display time needs to be before presentMessage
+    BOOL shouldDisplayTimeInMessages = [self shouldDisplayTimeInMessages];
+    [cell shouldDisplayTimeInMessages:shouldDisplayTimeInMessages];
+    
     BOOL willDisplayAvatarItem = (![message.sender.userID isEqualToString:self.layerClient.authenticatedUser.userID]) ? self.shouldDisplayAvatarItem : (self.shouldDisplayAvatarItem && self.shouldDisplayAvatarItemForAuthenticatedUser);
     [cell shouldDisplayAvatarItem:willDisplayAvatarItem];
     
@@ -469,6 +476,15 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     } else {
         [cell updateWithSender:nil];
     }
+    //parth
+    
+    if(shouldDisplayTimeInMessages) {
+        BOOL isOutgoing = [message.sender.userID isEqualToString:self.layerClient.authenticatedUser.userID];
+        
+        NSAttributedString *timeString = [self attributedStringForMessageTime:message forOutgoing:isOutgoing];
+        [cell updateTimeStampLabelWithAttributedText:timeString];
+    }
+    
     if (message.isUnread && [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive && self.marksMessagesAsRead) {
         [message markAsRead:nil];
     }
@@ -514,6 +530,7 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     }
 }
 
+//parth
 - (BOOL)shouldDisplayDateLabelForSection:(NSUInteger)section
 {
     if (section < ATLNumberOfSectionsBeforeFirstMessageSection) return NO;
@@ -524,11 +541,17 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     if (!previousMessage.sentAt) return NO;
     
     NSDate *date = message.sentAt ?: [NSDate date];
-    NSTimeInterval interval = [date timeIntervalSinceDate:previousMessage.sentAt];
-    if (fabs(interval) > self.dateDisplayTimeInterval) {
-        return YES;
+    NSDate *previousDate = previousMessage.sentAt ?: [NSDate date];
+    
+    if([self shouldDisplayTimeInMessages]) {
+        NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:date];
+        NSDateComponents *previousComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:previousDate];
+        
+        return components.day != previousComponents.day || components.month != previousComponents.month || components.year != previousComponents.year;
+    } else {
+        NSTimeInterval interval = [date timeIntervalSinceDate:previousMessage.sentAt];
+        return abs(interval) > self.dateDisplayTimeInterval;
     }
-    return NO;
 }
 
 - (BOOL)shouldDisplaySenderLabelForSection:(NSUInteger)section
@@ -747,6 +770,8 @@ static NSInteger const ATLPhotoActionSheet = 1000;
                 //parth
                 //post notification
                 //showSelectDateViewController
+                
+                
                 [NSNotificationCenter.defaultCenter postNotificationName:@"showSelectDateViewController" object:nil];
                 
                 
@@ -754,6 +779,10 @@ static NSInteger const ATLPhotoActionSheet = 1000;
                 
                 
             case 1:
+                
+                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"Camera"];
+                [[NSUserDefaults standardUserDefaults]synchronize];
+                
                 [self displayImagePickerWithSourceType:UIImagePickerControllerSourceTypeCamera];
                 break;
                 
@@ -1203,6 +1232,7 @@ static NSInteger const ATLPhotoActionSheet = 1000;
 - (NSAttributedString *)attributedStringForMessageDate:(LYRMessage *)message
 {
     NSAttributedString *dateString;
+    
     if ([self.dataSource respondsToSelector:@selector(conversationViewController:attributedStringForDisplayOfDate:)]) {
         NSDate *date = message.sentAt ?: [NSDate date];
         dateString = [self.dataSource conversationViewController:self attributedStringForDisplayOfDate:date];
@@ -1212,6 +1242,30 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     }
     return dateString;
 }
+
+//parth
+- (NSAttributedString *)attributedStringForMessageTime:(LYRMessage *)message forOutgoing:(BOOL)isOutgoing
+{
+    NSAttributedString *dateString;
+    
+    if ([self.dataSource respondsToSelector:@selector(conversationViewController:attributedStringForDisplayOfTime:forOutgoingMessage:)]) {
+        NSDate *date = message.sentAt ?: [NSDate date];
+        dateString = [self.dataSource conversationViewController:self attributedStringForDisplayOfTime:date forOutgoingMessage:isOutgoing];
+        NSAssert([dateString isKindOfClass:[NSAttributedString class]], @"Date string must be an attributed string");
+    } else {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"ATLConversationViewControllerDataSource must return an attributed string for Date" userInfo:nil];
+    }
+    return dateString;
+}
+
+- (BOOL)shouldDisplayTimeInMessages {
+    if ([self.dataSource respondsToSelector:@selector(conversationViewControllerShouldDisplayTimeInMessages:)]) {
+        return [self.dataSource conversationViewControllerShouldDisplayTimeInMessages:self];
+    }
+    return NO;
+}
+//
+
 
 - (NSAttributedString *)attributedStringForRecipientStatusOfMessage:(LYRMessage *)message
 {

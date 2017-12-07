@@ -355,9 +355,34 @@ static float const ATLMediaAttachmentDefaultThumbnailJPEGCompression = 0.5f;
         // --------------------------------------------------------------------
         //parth
         
-        NSDictionary *imageMetadata = @{ @"width": @(image.size.width),
-                                         @"height": @(image.size.height),
-                                         @"orientation": @(image.imageOrientation),@"offerDic":metadata };
+        BOOL value = NO;
+        
+        if([[NSUserDefaults standardUserDefaults] boolForKey:@"Camera"]){
+            value = [[NSUserDefaults standardUserDefaults] boolForKey:@"Camera"];
+        }
+        
+        
+        NSDictionary *imageMetadata;
+        
+        if(value){
+            imageMetadata =  @{ @"width": @(image.size.width),
+                                @"height": @(image.size.height),
+                                @"orientation": @(image.imageOrientation)};
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"Camera"];
+            [[NSUserDefaults standardUserDefaults]synchronize];
+            
+        }else{
+            imageMetadata =  @{ @"width": @(image.size.width),
+                                @"height": @(image.size.height),
+                                @"orientation": @(image.imageOrientation),@"offerDic":metadata };
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"Camera"];
+            [[NSUserDefaults standardUserDefaults]synchronize];
+            
+        }
+        
+        
+        NSLog(@"%@",imageMetadata);
+        
         NSError *JSONSerializerError;
         NSData *JSONData = [NSJSONSerialization dataWithJSONObject:imageMetadata options:NSJSONWritingPrettyPrinted error:&JSONSerializerError];
         if (JSONData) {

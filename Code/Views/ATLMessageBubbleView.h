@@ -29,6 +29,8 @@ extern CGFloat const ATLMessageBubbleLabelWidthMargin;
 extern CGFloat const ATLMessageBubbleMapWidth;
 extern CGFloat const ATLMessageBubbleMapHeight;
 extern CGFloat const ATLMessageBubbleDefaultHeight;
+//parth
+extern CGFloat const ATLMessageBubbleLabelTimestampMargin;
 
 /**
  @abstract Posted when a user taps a link in a message bubble.
@@ -47,6 +49,19 @@ extern NSString *const ATLUserDidTapPhoneNumberNotification;
  images, and location data.
  */
 @interface ATLMessageBubbleView : UIView <UIAppearanceContainer>
+
+
+//parth
+/**
+ @abstract Tells the bubble view how to display a timestamp.
+ */
+- (void)updateTimeStampLabelWithAttributedText:(NSAttributedString*)attText;
+
+/**
+ @abstract Tells the bubble view to display a timestamp.
+ */
+- (void)shouldDisplayTimeInMessages:(BOOL)shouldDisplayTimeInMessages;
+
 
 /**
  @abstract Tells the bubble view to display a given string.
@@ -81,6 +96,7 @@ extern NSString *const ATLUserDidTapPhoneNumberNotification;
  */
 - (void)updateProgressIndicatorWithProgress:(float)progress visible:(BOOL)visible animated:(BOOL)animated;
 
+
 /**
  @abstract The view that handles displaying text.
  */
@@ -106,6 +122,10 @@ extern NSString *const ATLUserDidTapPhoneNumberNotification;
  @default `UIMenuItem` copy action.
  */
 @property (nonatomic, nullable) NSArray <UIMenuItem*> *menuControllerActions;
-
+//parth
+/**
+ @abstract The view that handles displaying timestamp.
+ */
+@property (nonatomic) UILabel *bubbleTimestampLabel;
 @end
 NS_ASSUME_NONNULL_END

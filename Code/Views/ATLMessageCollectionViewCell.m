@@ -103,32 +103,35 @@ NSInteger const kATLSharedCellTag = 1000;
     // Remove self from any previously assigned LYRProgress instance.
     self.progress.delegate = nil;
     self.lastProgressFractionCompleted = 0;
+    
 }
 
 - (void)presentMessage:(LYRMessage *)message
 {
     self.message = message;
     LYRMessagePart *messagePart = message.parts.firstObject;
-    [self updateBubbleWidth:[[self class] cellSizeForMessage:self.message inView:nil].width];
-    if ([self messageContainsTextContent]) {
+    
+    CGFloat width = [[self class] cellSizeForMessage:self.message inView:nil].width;
+    
+    BOOL doesMessageContainTextContent = [self messageContainsTextContent];
+
+    if(doesMessageContainTextContent) {
+        width += ATLMessageBubbleLabelTimestampMargin;
+    }
+    [self updateBubbleWidth:width];
+    
+    
+   // [self updateBubbleWidth:[[self class] cellSizeForMessage:self.message inView:nil].width];
+    if (doesMessageContainTextContent) {
         [self configureBubbleViewForTextContent];
-    }else if ([messagePart.MIMEType isEqualToString:ATLMIMETypeImageoffer])
-    {
-        [self configureBubbleViewForOfferContent];
-        
     }
     //parth
     else if ([messagePart.MIMEType isEqualToString:ATLMIMETypeImageJPEG]) {
-        if ([message.parts[2].MIMEType isEqualToString:ATLMIMETypeImageoffer])
-        {
+        if ([message.parts[2].MIMEType isEqualToString:ATLMIMETypeImageoffer]){
             [self configureBubbleViewForOfferContent];
-            
-        }
-        else
-        {
+        }else{
             [self configureBubbleViewForImageContent];
         }
-        
         
     }else if ([messagePart.MIMEType isEqualToString:ATLMIMETypeImagePNG]) {
         [self configureBubbleViewForImageContent];
@@ -156,6 +159,9 @@ NSInteger const kATLSharedCellTag = 1000;
 //MARK: configureview for offer content
 - (void)configureBubbleViewForOfferContent
 {
+    //parth
+    //comment
+    
     self.accessibilityLabel = ATLImageAccessibilityLabel;
     
     LYRMessagePart *fullResImagePart = ATLMessagePartForMIMEType(self.message, ATLMIMETypeImageJPEG);
@@ -164,10 +170,11 @@ NSInteger const kATLSharedCellTag = 1000;
     }
     
     if (fullResImagePart && ((fullResImagePart.transferStatus == LYRContentTransferAwaitingUpload) || (fullResImagePart.transferStatus == LYRContentTransferUploading))) {
-        [self updateCellWithProgress:fullResImagePart.progress];
+        //[self updateCellWithProgress:fullResImagePart.progress];
     } else {
-        [self.bubbleView updateProgressIndicatorWithProgress:1.0 visible:NO animated:YES];
+       // [self.bubbleView updateProgressIndicatorWithProgress:1.0 visible:NO animated:YES];
     }
+    
     
     __block UIImage *displayingImage;
     __block LYRMessagePart *previewImagePart = ATLMessagePartForMIMEType(self.message, ATLMIMETypeImageJPEGPreview);
@@ -204,11 +211,11 @@ NSInteger const kATLSharedCellTag = 1000;
                 if (!progress) {
                     NSLog(@"failed to request for a content download from the UI with error=%@", error);
                 }
-                [weakSelf.bubbleView updateProgressIndicatorWithProgress:0.0 visible:NO animated:NO];
+                //[weakSelf.bubbleView updateProgressIndicatorWithProgress:0.0 visible:NO animated:NO];
             } else if (fullResImagePart && (fullResImagePart.transferStatus == LYRContentTransferDownloading)) {
-                [self updateCellWithProgress:fullResImagePart.progress];
+              // [self updateCellWithProgress:fullResImagePart.progress];
             } else {
-                [weakSelf.bubbleView updateProgressIndicatorWithProgress:1.0 visible:NO animated:YES];
+               // [weakSelf.bubbleView updateProgressIndicatorWithProgress:1.0 visible:NO animated:YES];
             }
         }
         
