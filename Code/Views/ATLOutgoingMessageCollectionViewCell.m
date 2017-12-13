@@ -39,8 +39,13 @@ NSString *const ATLOutgoingMessageCellIdentifier = @"ATLOutgoingMessageCellIdent
     proxy.layer.borderWidth = 1.0f;
     proxy.layer.borderColor = [UIColor whiteColor].CGColor;
     proxy.bubbleViewColor = ATLGrayColor();
-    proxy.messageTextColor = [UIColor whiteColor];
-    proxy.messageLinkTextColor = [UIColor whiteColor];
+    //proxy.bubbleViewColor = [UIColor colorWithRed:0.0/255.0 green:137.0/255.0 blue:242.0/255.0 alpha:1];
+    
+    //parth  change color to black font
+    proxy.messageTextColor = [UIColor blackColor];
+    proxy.messageLinkTextColor = [UIColor blackColor];
+//    proxy.messageTextColor = [UIColor whiteColor];
+//    proxy.messageLinkTextColor = [UIColor whiteColor];
 }
 
 - (id)initWithFrame:(CGRect)frame

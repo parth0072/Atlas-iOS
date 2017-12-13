@@ -418,13 +418,18 @@ static NSInteger const ATLPhotoActionSheet = 1000;
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
 {
+    //parth 
     if (section == ATLMoreMessagesSection) return CGSizeZero;
     NSAttributedString *readReceipt;
     if ([self shouldDisplayReadReceiptForSection:section]) {
         readReceipt = [self attributedStringForRecipientStatusOfMessage:[self.conversationDataSource messageAtCollectionViewSection:section]];
     }
     BOOL shouldClusterMessage = [self shouldClusterMessageAtSection:section];
+    //parth
     CGFloat height = [ATLConversationCollectionViewFooter footerHeightWithRecipientStatus:readReceipt clustered:shouldClusterMessage];
+    //parth//
+    //CHANGE TO
+   // return CGSizeMake(0, 27);
     return CGSizeMake(0, height);
 }
 
@@ -492,8 +497,19 @@ static NSInteger const ATLPhotoActionSheet = 1000;
 
 - (void)configureFooter:(ATLConversationCollectionViewFooter *)footer atIndexPath:(NSIndexPath *)indexPath
 {
+    
     LYRMessage *message = [self.conversationDataSource messageAtCollectionViewIndexPath:indexPath];
     footer.message = message;
+    
+    //parth
+    
+    //change shouldisplay receipt for all messages
+//    if (true) {
+//        [footer updateWithAttributedStringForRecipientStatus:[self attributedStringForRecipientStatusOfMessage:message]];
+//    } else {
+//        [footer updateWithAttributedStringForRecipientStatus:nil];
+//    }
+    //parth
     if ([self shouldDisplayReadReceiptForSection:indexPath.section]) {
         [footer updateWithAttributedStringForRecipientStatus:[self attributedStringForRecipientStatusOfMessage:message]];
     } else {
@@ -643,6 +659,8 @@ static NSInteger const ATLPhotoActionSheet = 1000;
 
 - (void)messageInputToolbar:(ATLMessageInputToolbar *)messageInputToolbar didTapRightAccessoryButton:(UIButton *)rightAccessoryButton
 {
+  
+    
     if (!self.conversation) {
         return;
     }

@@ -134,7 +134,7 @@ NSString *const ATLAvatarViewAccessibilityLabel = @"ATLAvatarViewAccessibilityLa
             //parth
             //set prioritii available
         case LYRIdentityPresenceStatusAvailable:
-            self.presenceStatusView.statusColor = [UIColor colorWithRed:230.0/255 green:37.0/255 blue:84.0/255 alpha:1];
+            self.presenceStatusView.statusColor = [UIColor colorWithRed:79.0/255.0 green:191.0/255.0 blue:98.0/255.0 alpha:1.0];
             self.presenceStatusView.mode = ATLMPresenceStatusViewModeFill;
             break;
         case LYRIdentityPresenceStatusBusy:

@@ -126,6 +126,10 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //parth
+    
+    self.tableView.separatorColor = [UIColor colorWithRed:30.0/255.0 green:30.0/255.0 blue:30.0/255.0 alpha:1];
+ 
     
     self.title = ATLLocalizedString(@"atl.conversationlist.title.key", ATLConversationListViewControllerTitle, nil);
     self.accessibilityLabel = ATLConversationListViewControllerTitle;
@@ -338,8 +342,8 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
     NSString *reuseIdentifier = [self reuseIdentifierForConversation:nil atIndexPath:indexPath];
     
     UITableViewCell<ATLConversationPresenting> *conversationCell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
-    [self configureCell:conversationCell atIndexPath:indexPath];
     
+    [self configureCell:conversationCell atIndexPath:indexPath];
     //parth
     [conversationCell setSelectionStyle:UITableViewCellSelectionStyleNone];
     [conversationCell setBackgroundColor:[UIColor blackColor]];
@@ -368,6 +372,7 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
     if (conversation == nil) {
         return;     // NOTE the early return if the conversation isn't found!
     }
+
     
     [conversationCell presentConversation:conversation];
     
@@ -380,8 +385,21 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
         }
     }
     
+    //check for unread count
+    if([self.dataSource respondsToSelector:@selector(conversationListViewController:unreadCount:)])
+    {
+        NSString *unreadCount = [self.dataSource conversationListViewController:self unreadCount:conversation];
+        if ([unreadCount isEqualToString:@"0"])
+        {
+           [conversationCell updateCount:true :unreadCount];
+        }else{
+           [conversationCell updateCount:false :unreadCount];
+        }
+        
+    }
+    
     if ([self.dataSource respondsToSelector:@selector(conversationListViewController:titleForConversation:)]) {
-        NSString *conversationTitle = [self.dataSource conversationListViewController:self titleForConversation:conversation];
+        NSAttributedString *conversationTitle = [self.dataSource conversationListViewController:self titleForConversation:conversation];
         [conversationCell updateWithConversationTitle:conversationTitle];
     } else {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Conversation View Delegate must return a conversation label" userInfo:nil];

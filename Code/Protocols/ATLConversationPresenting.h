@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
  @abstract Provides a string to display representing the conversation title.
  @param conversationTitle The conversation title to display.
  */
-- (void)updateWithConversationTitle:(NSString *)conversationTitle;
+- (void)updateWithConversationTitle:(NSAttributedString *)conversationTitle;
 
 /**
  @abstract Gives the receiver an object conforming to the `ATLAvatarItem` protocol.
@@ -54,6 +54,10 @@ NS_ASSUME_NONNULL_BEGIN
  @param lastMessageText The last message text to display.
  */
 - (void)updateWithLastMessageText:(NSString *)lastMessageText;
+//parth
+
+-(void)updateCount:(BOOL)hide :(NSString *)value;
+
 
 @end
 NS_ASSUME_NONNULL_END

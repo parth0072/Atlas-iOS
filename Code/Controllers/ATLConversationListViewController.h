@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param conversation The `LYRConversation` object.
  @return The string to be displayed as the title for a given conversation in the conversation list.
  */
-- (NSString *)conversationListViewController:(ATLConversationListViewController *)conversationListViewController titleForConversation:(LYRConversation *)conversation;
+- (NSAttributedString *)conversationListViewController:(ATLConversationListViewController *)conversationListViewController titleForConversation:(LYRConversation *)conversation;
 
 @optional
 
@@ -119,7 +119,10 @@ NS_ASSUME_NONNULL_BEGIN
  @return The color to apply on the delete button for a given deletion mode in the conversation list.
  */
 - (UIColor *)conversationListViewController:(ATLConversationListViewController *)conversationListViewController colorForButtonWithDeletionMode:(LYRDeletionMode)deletionMode;
+//
+- (NSString *)conversationListViewController:(ATLConversationListViewController *)conversationListViewController unreadCount:(LYRConversation *)conversation;
 
+//
 /**
  @abstract Asks the data source for an `NSArray` of `UITableViewRowAction` objects for the given deletion modes.
  @param conversationListViewController The `LYRConversationListViewController` in which the edit actions title will appear.

@@ -93,8 +93,11 @@ static CGFloat const ATLButtonHeight = 28.0f;
         self.textInputView.delegate = self;
         self.textInputView.layer.borderColor = ATLGrayColor().CGColor;
         self.textInputView.layer.borderWidth = 0.5;
-        self.textInputView.layer.cornerRadius = 5.0f;
+       // self.textInputView.layer.cornerRadius = 5.0f;
         self.textInputView.scrollEnabled = NO;
+        //parth
+         self.textInputView.layer.cornerRadius = 15.0f;
+        self.textInputView.keyboardAppearance = UIKeyboardAppearanceDark;
         [self addSubview:self.textInputView];
         
         self.verticalMargin = ATLVerticalMargin;

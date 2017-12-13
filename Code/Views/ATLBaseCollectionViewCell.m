@@ -29,6 +29,7 @@ CGFloat const ATLAvatarImageLeadPadding = 12.0f;
 CGFloat const ATLAvatarImageTailPadding = 4.0f;
 
 //parth
+//CGFloat const ATLBubbleCornerRadius = 17.0f;
 CGFloat const ATLBubbleCornerRadius = 17.0f;
 CGFloat const ATLBubbleCornerRadiusWithTime = 8.0f;
 

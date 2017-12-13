@@ -66,6 +66,8 @@ static NSDateFormatter *ATLShortTimeFormatter()
 @property (nonatomic) UILabel *lastMessageLabel;
 @property (nonatomic) UIView *unreadMessageIndicator;
 @property (nonatomic) UIImageView *chevronIconView;
+@property (nonatomic) UIView *unreadMessageIndicatorCount;
+@property (nonatomic) UILabel *unreadMessageCountLabel;
 
 @end
 
@@ -85,12 +87,17 @@ static CGFloat const ATLChevronIconViewRightPadding = 14.0f;
     proxy.conversationTitleLabelFont = [UIFont boldSystemFontOfSize:17];
     //parth
   //  [proxy.conversationTitleLabel setBackgroundColor:[UIColor colorWithRed:145.0/255 green:145.0/255 blue:145.0/255 alpha:1]];
-    proxy.conversationTitleLabelColor = [UIColor colorWithRed:230.0/255 green:37.0/255 blue:84.0/255 alpha:1];
+    //parth
+    
+  //  proxy.conversationTitleLabelColor = [UIColor colorWithRed:230.0/255 green:37.0/255 blue:84.0/255 alpha:1];
     proxy.lastMessageLabelFont = [UIFont systemFontOfSize:15];
     proxy.lastMessageLabelColor = [UIColor grayColor];
     proxy.dateLabelFont = [UIFont systemFontOfSize:15];
     proxy.dateLabelColor = [UIColor grayColor];
-    proxy.unreadMessageIndicatorBackgroundColor = ATLBlueColor();
+    //parth
+   // [proxy.unreadMessageIndicator setHidden:true];
+    proxy.unreadMessageIndicatorBackgroundColor = [UIColor clearColor];
+    //proxy.unreadMessageIndicatorBackgroundColor = ATLBlueColor();
     proxy.cellBackgroundColor = [UIColor blackColor];
 }
 
@@ -115,6 +122,8 @@ static CGFloat const ATLChevronIconViewRightPadding = 14.0f;
 - (void)lyr_commonInit
 {
     self.backgroundColor = _cellBackgroundColor;
+    //parth hide layer unread message indicator
+    [self.unreadMessageIndicator setHidden:true];
     
     // Initialize Avatar Image
     _conversationImageView = [[ATLAvatarView alloc] init];
@@ -138,6 +147,37 @@ static CGFloat const ATLChevronIconViewRightPadding = 14.0f;
     _lastMessageLabel.numberOfLines = 2;
     [self.contentView addSubview:_lastMessageLabel];
     
+    // Initialize count chat text
+    //parth
+    _unreadMessageIndicatorCount = [[UIView alloc]init];
+    _unreadMessageCountLabel = [[UILabel alloc]init];
+    _unreadMessageCountLabel.textAlignment = NSTextAlignmentCenter;
+    _unreadMessageCountLabel.font = [UIFont systemFontOfSize:12.0f];
+    
+    //label Customization
+    //_unreadMessageCountLabel.text = @"1";
+    _unreadMessageCountLabel.textColor = [UIColor whiteColor];
+    _unreadMessageCountLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    _unreadMessageCountLabel.numberOfLines = 1;
+    _unreadMessageCountLabel.adjustsFontSizeToFitWidth = true;
+    [_unreadMessageCountLabel sizeToFit];
+
+    _unreadMessageIndicatorCount.translatesAutoresizingMaskIntoConstraints = NO;
+    _unreadMessageIndicatorCount.layer.masksToBounds = YES;
+    [_unreadMessageIndicatorCount setBackgroundColor:[UIColor colorWithRed:255.0/255.0 green:60.0/255.0 blue:83.0/255.0 alpha:1.0]];
+    [_unreadMessageIndicatorCount.layer setCornerRadius:11.5];
+    _unreadMessageIndicatorCount.contentMode = UIViewContentModeScaleAspectFit;
+    
+    [_unreadMessageIndicatorCount addSubview:_unreadMessageCountLabel];
+   
+    //parth
+    //configure unread label count layout and add to super view
+    [self configureUnreadLabelCount];
+    [self.contentView addSubview:_unreadMessageIndicatorCount];
+    
+    
+    
+    
     // Initialize Date Label
     _dateLabel = [[UILabel alloc] init];
     _dateLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -151,6 +191,7 @@ static CGFloat const ATLChevronIconViewRightPadding = 14.0f;
     _unreadMessageIndicator.clipsToBounds = YES;
     _unreadMessageIndicator.translatesAutoresizingMaskIntoConstraints = NO;
     _unreadMessageIndicator.backgroundColor = _unreadMessageIndicatorBackgroundColor;
+    
     [self.contentView addSubview:_unreadMessageIndicator];
     
     _chevronIconView = [[UIImageView alloc] init];
@@ -166,7 +207,27 @@ static CGFloat const ATLChevronIconViewRightPadding = 14.0f;
     [self configureLastMessageLayoutConstraints];
     [self configureUnreadMessageIndicatorLayoutConstraints];
     [self configureChevronIconViewConstraints];
+    //parth
+    [self configureConversationgroupChatViewLayoutContraints];
+    
 }
+
+
+//parth
+//update count unread notification
+
+-(void)updateCount:(BOOL)hide :(NSString *)value{
+    if (hide == true)
+    {
+        [_unreadMessageIndicatorCount setHidden:true];
+    }
+    else{
+        [_unreadMessageIndicatorCount setHidden:false];
+        [_unreadMessageCountLabel setText:value];
+    }
+    
+}
+
 
 - (void)updateConstraints
 {
@@ -299,12 +360,12 @@ static CGFloat const ATLChevronIconViewRightPadding = 14.0f;
     }
 }
 
-- (void)updateWithConversationTitle:(NSString *)conversationTitle
+- (void)updateWithConversationTitle:(NSAttributedString *)conversationTitle
 {
     self.accessibilityLabel = conversationTitle;
-    self.conversationTitleLabel.text = conversationTitle;
+    self.conversationTitleLabel.attributedText = conversationTitle;
     //parth
-     //[self.conversationTitleLabel setTextColor:[UIColor colorWithRed:235.0/255 green:30.0/255 blue:86.0/255 alpha:1]];
+ //    [self.conversationTitleLabel setTextColor:[UIColor whiteColor]];
 }
 
 #pragma mark - Helpers
@@ -365,6 +426,32 @@ static CGFloat const ATLChevronIconViewRightPadding = 14.0f;
 {
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.chevronIconView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-ATLChevronIconViewRightPadding]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.chevronIconView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.dateLabel attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+}
+
+//parth
+- (void)configureConversationgroupChatViewLayoutContraints
+{
+    
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.unreadMessageIndicatorCount attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:23]];
+    
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.unreadMessageIndicatorCount attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:23]];
+    
+    
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.unreadMessageIndicatorCount attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-20]];
+    
+    
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.unreadMessageIndicatorCount attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-20]];
+    
+}
+
+- (void)configureUnreadLabelCount
+{
+    // align _unreadMessageCountLabel from the left and right
+    [_unreadMessageIndicatorCount addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-2-[_unreadMessageCountLabel]-2-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_unreadMessageCountLabel)]];
+    
+    // align _unreadMessageCountLabel from the top and bottom
+    [_unreadMessageIndicatorCount addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-2-[_unreadMessageCountLabel]-2-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_unreadMessageCountLabel)]];
+
 }
 
 @end

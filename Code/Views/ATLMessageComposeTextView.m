@@ -28,7 +28,9 @@
 
 @end
 
-static NSString *const ATLPlaceholderText = @"Enter Message";
+//parth
+
+static NSString *const ATLPlaceholderText = @"Message";
 
 @implementation ATLMessageComposeTextView
 
@@ -44,6 +46,8 @@ static NSString *const ATLPlaceholderText = @"Enter Message";
         self.dataDetectorTypes = UIDataDetectorTypeLink;
         self.placeholder = ATLPlaceholderText;
 
+        //parth
+        //self.backgroundColor = [UIColor blackColor];
         self.placeholderLabel = [UILabel new];
         self.placeholderLabel.font = self.font;
         self.placeholderLabel.text = ATLLocalizedString(self.placeholder, self.placeholder, nil);;
