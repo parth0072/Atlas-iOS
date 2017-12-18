@@ -42,6 +42,9 @@ extern NSString *const ATLConversationViewFooterIdentifier;
  */
 - (void)updateWithAttributedStringForRecipientStatus:(nullable NSAttributedString *)recipientStatus;
 
+//parth
+-(void)updateWithAttributesStringForTimeStamp:(nullable NSAttributedString *)timestamp;
+
 /**
  @abstract Performs calculations to determine the footer height.
  @param recipientStatus An `NSAttributedString` containing attributes that will be used in the calculation.

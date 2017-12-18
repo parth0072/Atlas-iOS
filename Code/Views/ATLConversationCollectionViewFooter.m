@@ -26,6 +26,8 @@
 @interface ATLConversationCollectionViewFooter ()
 
 @property (nonatomic) UILabel *recipientStatusLabel;
+@property (nonatomic) UILabel *timeLabel;
+
 
 @property (nonatomic) NSLayoutConstraint *recipientStatusLabelWidthConstraint;
 @property (nonatomic) NSLayoutConstraint *recipientStatusLabelHeightConstraint;
@@ -65,6 +67,7 @@ CGFloat const ATLConversationViewFooterUnClusteredPadding = 7;
     
     //parth
     //change allignment to center
+    //add new label in footer
     [self.recipientStatusLabel setTextAlignment:NSTextAlignmentCenter];
     self.recipientStatusLabel.font = [[self class] defaultRecipientStatusFont];
     self.recipientStatusLabel.textColor = [UIColor grayColor];
@@ -72,6 +75,16 @@ CGFloat const ATLConversationViewFooterUnClusteredPadding = 7;
     self.recipientStatusLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:self.recipientStatusLabel];
     
+    //parth
+    //new date and time label
+    self.timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0,10, self.layer.frame.size.height)];
+    self.timeLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    self.timeLabel.textColor = [UIColor grayColor];
+    [self addSubview:_timeLabel];
+    
+    //parth
+    
+    [self configureTimelabelConsratints];
     [self configureRecipientStatusLabelConstraints];
 }
 
@@ -84,6 +97,12 @@ CGFloat const ATLConversationViewFooterUnClusteredPadding = 7;
 - (void)updateWithAttributedStringForRecipientStatus:(NSAttributedString *)recipientStatus
 {
     self.recipientStatusLabel.attributedText = recipientStatus;
+    
+}
+
+-(void)updateWithAttributesStringForTimeStamp:(NSAttributedString *)timestamp
+{
+    self.timeLabel.attributedText = timestamp;
 }
 
 #pragma mark - Height Calculations
@@ -126,6 +145,22 @@ CGFloat const ATLConversationViewFooterUnClusteredPadding = 7;
     return [UIFont boldSystemFontOfSize:14];
 }
 
+-(void)configureTimelabelConsratints
+{
+    [self addConstraint:
+     [NSLayoutConstraint constraintWithItem:self.timeLabel
+                                  attribute:NSLayoutAttributeCenterX
+                                  relatedBy:0
+                                     toItem:self
+                                  attribute:NSLayoutAttributeCenterX
+                                 multiplier:1
+                                   constant:0]];
+           //  [self addConstraint:[NSLayoutConstraint constraintWithItem:self.timeLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1 constant:10]];
+           // [self addConstraint:[NSLayoutConstraint constraintWithItem:self.timeLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1 constant:10]];
+}
+
+
+
 - (void)configureRecipientStatusLabelConstraints
 {
     //parth
@@ -133,19 +168,19 @@ CGFloat const ATLConversationViewFooterUnClusteredPadding = 7;
     //new constraint
  
 //    
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.recipientStatusLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:ATLConversationViewFooterTopPadding]];
-    
-   
-    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.recipientStatusLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:-4]];
+
+
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.recipientStatusLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1.0 constant:20]];
-    NSLayoutConstraint *recipientStatusLabelRightConstraint = [NSLayoutConstraint constraintWithItem:self.recipientStatusLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1.0 constant:-ATLMessageCellHorizontalMargin];
+    NSLayoutConstraint *recipientStatusLabelRightConstraint = [NSLayoutConstraint constraintWithItem:self.recipientStatusLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1.0 constant:-10.0];
     // To work around an apparent system bug that initially requires the view to have zero width, instead of a required priority, we use a priority one higher than the content compression resistance.
     recipientStatusLabelRightConstraint.priority = UILayoutPriorityDefaultHigh + 1;
    [self addConstraint:recipientStatusLabelRightConstraint];
     
     //parth
-    //    [self.centerXAnchor constraintEqualToAnchor:self.centerXAnchor];
-    //    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.recipientStatusLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
+//        [self.centerXAnchor constraintEqualToAnchor:self.centerXAnchor];
+//         [self addConstraint:[NSLayoutConstraint constraintWithItem:self.recipientStatusLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
+//        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.recipientStatusLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
     //parth//
 }
 

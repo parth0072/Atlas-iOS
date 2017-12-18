@@ -31,7 +31,8 @@ CGFloat const ATLAvatarImageTailPadding = 4.0f;
 //parth
 //CGFloat const ATLBubbleCornerRadius = 17.0f;
 CGFloat const ATLBubbleCornerRadius = 17.0f;
-CGFloat const ATLBubbleCornerRadiusWithTime = 8.0f;
+//parth
+CGFloat const ATLBubbleCornerRadiusWithTime = 17.0f;
 
 @interface ATLBaseCollectionViewCell ()
 
@@ -43,7 +44,8 @@ CGFloat const ATLBubbleCornerRadiusWithTime = 8.0f;
 @property (nonatomic) BOOL shouldDisplayAvatar;
 //parth
 @property (nonatomic) BOOL shouldDisplayTimeInMessages;
-
+//parth
+@property (nonatomic) UILabel *statusLabel;
 @end
 
 @implementation ATLBaseCollectionViewCell
@@ -80,7 +82,15 @@ CGFloat const ATLBubbleCornerRadiusWithTime = 8.0f;
     //parth
     
     //edit add bubble
-
+    
+    //parth
+    //add status in collection view cell
+    self.statusLabel = [[UILabel alloc]init];
+    self.statusLabel.text = [NSString stringWithFormat:@"Y"];
+    [self.contentView addSubview:self.statusLabel];
+  
+    
+    
    [self.contentView addSubview:_bubbleView];
     _avatarView = [[ATLAvatarView alloc] init];
     _avatarView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -145,7 +155,9 @@ CGFloat const ATLBubbleCornerRadiusWithTime = 8.0f;
 }
 
 - (void)shouldDisplayTimeInMessages:(BOOL)shouldDisplayTimeInMessages {
-    if(shouldDisplayTimeInMessages) {
+   
+    
+    if(true) {
         // Lets check if user did not change corner radius to his own
         if(_bubbleViewCornerRadius == ATLBubbleCornerRadius) {
             // Then lets update it if it is as original one
@@ -166,6 +178,22 @@ CGFloat const ATLBubbleCornerRadiusWithTime = 8.0f;
         self.avatarView.hidden = YES;
     }
 }
+
+
+//parth
+-(void)configureStatusLabelConstrints
+{
+    // align self.statusLabel from the left
+    [self.bubbleView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[self.statusLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(self.statusLabel)]];
+    
+    // width constraint
+    [self.bubbleView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[self.statusLabel(==10)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(self.statusLabel)]];
+    
+    // height constraint
+    [self.bubbleView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[self.statusLabel(==10)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(self.statusLabel)]];
+
+}
+
 
 - (void)configureLayoutConstraints
 {

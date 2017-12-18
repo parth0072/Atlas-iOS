@@ -149,7 +149,7 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     [self configureControllerForConversation];
     self.messageInputToolbar.inputToolBarDelegate = self;
     //parth
-    self.messageInputToolbar.barTintColor = [UIColor blackColor];
+    self.messageInputToolbar.barTintColor = [UIColor colorWithRed:51.0/255.0 green:51.0/255.0 blue:51.0/255.0 alpha:1];
     self.addressBarController.delegate = self;
     self.canDisableAddressBar = YES;
     //parth hide display avatar item 
@@ -429,8 +429,8 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     CGFloat height = [ATLConversationCollectionViewFooter footerHeightWithRecipientStatus:readReceipt clustered:shouldClusterMessage];
     //parth//
     //CHANGE TO
-   // return CGSizeMake(0, 27);
-    return CGSizeMake(0, height);
+    return CGSizeMake(0, 16);
+    //return CGSizeMake(0, height);
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -502,13 +502,19 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     footer.message = message;
     
     //parth
+    //show date insted of recipient status
+    NSAttributedString *dateString;
     
-    //change shouldisplay receipt for all messages
-//    if (true) {
-//        [footer updateWithAttributedStringForRecipientStatus:[self attributedStringForRecipientStatusOfMessage:message]];
-//    } else {
-//        [footer updateWithAttributedStringForRecipientStatus:nil];
-//    }
+    if ([self.dataSource respondsToSelector:@selector(conversationViewController:attributedStringForDisplayOfTime:forOutgoingMessage:)]) {
+        NSDate *date = message.sentAt ?: [NSDate date];
+        dateString = [self.dataSource conversationViewController:self attributedStringForDisplayOfTime:date forOutgoingMessage:nil];
+        [footer updateWithAttributesStringForTimeStamp:dateString];
+        NSAssert([dateString isKindOfClass:[NSAttributedString class]], @"Date string must be an attributed string");
+    } else {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"ATLConversationViewControllerDataSource must return an attributed string for Date" userInfo:nil];
+    }
+    
+   
     //parth
     if ([self shouldDisplayReadReceiptForSection:indexPath.section]) {
         [footer updateWithAttributedStringForRecipientStatus:[self attributedStringForRecipientStatusOfMessage:message]];
@@ -1266,14 +1272,25 @@ static NSInteger const ATLPhotoActionSheet = 1000;
 {
     NSAttributedString *dateString;
     
-    if ([self.dataSource respondsToSelector:@selector(conversationViewController:attributedStringForDisplayOfTime:forOutgoingMessage:)]) {
-        NSDate *date = message.sentAt ?: [NSDate date];
-        dateString = [self.dataSource conversationViewController:self attributedStringForDisplayOfTime:date forOutgoingMessage:isOutgoing];
-        NSAssert([dateString isKindOfClass:[NSAttributedString class]], @"Date string must be an attributed string");
+    //parth//
+    //change time to  status
+    NSAttributedString *recipientStatusString;
+    if ([self.dataSource respondsToSelector:@selector(conversationViewController:attributedStringForDisplayOfRecipientStatus:)]) {
+        recipientStatusString = [self.dataSource conversationViewController:self attributedStringForDisplayOfRecipientStatus:message.recipientStatusByUserID];
+        NSAssert([recipientStatusString isKindOfClass:[NSAttributedString class]], @"Recipient String must be an attributed string");
     } else {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"ATLConversationViewControllerDataSource must return an attributed string for Date" userInfo:nil];
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"ATLConversationViewControllerDataSource must return an attributed string for recipient status" userInfo:nil];
     }
-    return dateString;
+    return recipientStatusString;
+    //parth//
+//    if ([self.dataSource respondsToSelector:@selector(conversationViewController:attributedStringForDisplayOfTime:forOutgoingMessage:)]) {
+//        NSDate *date = message.sentAt ?: [NSDate date];
+//        dateString = [self.dataSource conversationViewController:self attributedStringForDisplayOfTime:date forOutgoingMessage:isOutgoing];
+//        NSAssert([dateString isKindOfClass:[NSAttributedString class]], @"Date string must be an attributed string");
+//    } else {
+//        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"ATLConversationViewControllerDataSource must return an attributed string for Date" userInfo:nil];
+//    }
+//    return dateString;
 }
 
 - (BOOL)shouldDisplayTimeInMessages {

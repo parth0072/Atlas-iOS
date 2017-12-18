@@ -41,7 +41,10 @@ static NSString *const ATLPlaceholderText = @"Message";
         
         self.attributedText = [[NSAttributedString alloc] initWithString:@"" attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:17],
                                                                                          NSForegroundColorAttributeName : ATLGrayColor()}];
-        self.textContainerInset = UIEdgeInsetsMake(4, 4, 4, 4);
+        //self.textContainerInset = UIEdgeInsetsMake(4, 4, 4, 4);
+        //parth
+        
+        self.textContainerInset = UIEdgeInsetsMake(8, 4, 4, 4);
         self.font = [UIFont systemFontOfSize:17];
         self.dataDetectorTypes = UIDataDetectorTypeLink;
         self.placeholder = ATLPlaceholderText;
@@ -74,7 +77,8 @@ static NSString *const ATLPlaceholderText = @"Message";
         CGRect placeholderFrame = self.placeholderLabel.frame;
         CGFloat textViewHorizontalIndent = 5;
         placeholderFrame.origin.x = self.textContainerInset.left + textViewHorizontalIndent;
-        placeholderFrame.origin.y = self.textContainerInset.top;
+        //parth
+        placeholderFrame.origin.y = self.textContainerInset.top + 1;
         CGSize fittedPlaceholderSize = [self.placeholderLabel sizeThatFits:CGSizeMake(MAXFLOAT, MAXFLOAT)];
         placeholderFrame.size = fittedPlaceholderSize;
         CGFloat maxPlaceholderWidth = CGRectGetWidth(self.frame) - self.textContainerInset.left - self.textContainerInset.right - textViewHorizontalIndent * 2;

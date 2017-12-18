@@ -35,11 +35,12 @@ NSString *const ATLIncomingMessageCellIdentifier = @"ATLIncomingMessageCellIdent
 {
     ATLIncomingMessageCollectionViewCell *proxy = [self appearance];
     //parth
-    //SET RED COLOR
-    //proxy.bubbleViewColor = [UIColor redColor];
-
-    proxy.bubbleViewColor = ATLLightGrayColor();
-    proxy.messageLinkTextColor = ATLBlueColor();
+    
+    proxy.bubbleViewColor = [UIColor colorWithRed:204.0/255.0 green:204.0/255.0 blue:204.0/255.0 alpha:1];
+    proxy.messageTextColor = [UIColor blackColor];
+    proxy.messageTextFont = [UIFont fontWithName:@"GillSans" size:17];
+   // proxy.bubbleViewColor = ATLLightGrayColor();
+    proxy.messageLinkTextColor = [UIColor blackColor];
 }
 
 - (id)initWithFrame:(CGRect)frame

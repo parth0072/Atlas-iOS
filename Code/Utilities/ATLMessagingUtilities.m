@@ -46,6 +46,7 @@ NSString *const ATLImagePreviewHeightKey = @"height";
 NSString *const ATLLocationLatitudeKey = @"lat";
 NSString *const ATLLocationLongitudeKey = @"lon";
 
+//parth
 NSString *const ATLUserNotificationInlineReplyActionIdentifier = @"layer:///actions/inline-reply";
 NSString *const ATLUserNotificationDefaultActionsCategoryIdentifier = @"layer:///categories/default";
 
@@ -192,10 +193,13 @@ CGSize  ATLSizeFromOriginalSizeWithConstraint(CGSize originalSize, CGFloat const
 LYRMessage *ATLMessageForParts(LYRClient *layerClient, NSArray *messageParts, NSString *pushText, NSString *pushSound)
 {
     LYRPushNotificationConfiguration *defaultConfiguration = [LYRPushNotificationConfiguration new];
+    //parth//
+    //change default setting to inline reply in layer ios
+    
     defaultConfiguration.alert = pushText;
     defaultConfiguration.sound = pushSound;
     defaultConfiguration.category = ATLUserNotificationDefaultActionsCategoryIdentifier;
-    
+    //defaultConfiguration.category = ATLUserNotificationInlineReplyActionIdentifier;
     LYRMessageOptions *messageOptions = [LYRMessageOptions new];
     messageOptions.pushNotificationConfiguration = defaultConfiguration;
     NSError *error;
