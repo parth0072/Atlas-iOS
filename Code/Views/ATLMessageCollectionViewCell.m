@@ -161,7 +161,6 @@ NSInteger const kATLSharedCellTag = 1000;
 {
     //parth
     //comment
-    
     self.accessibilityLabel = ATLImageAccessibilityLabel;
     
     LYRMessagePart *fullResImagePart = ATLMessagePartForMIMEType(self.message, ATLMIMETypeImageJPEG);

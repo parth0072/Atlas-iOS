@@ -223,8 +223,6 @@ NSArray *ATLMessagePartsWithMediaAttachmentOffer(ATLMediaAttachment *mediaAttach
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Cannot create an LYRMessagePart with `nil` mediaInputStream." userInfo:nil];
     }
     //parth add image offer mime type
-    
-   
     // Create the message part for the main media (should be on index zero).
   
      [messageParts addObject:[LYRMessagePart messagePartWithMIMEType:mediaAttachment.mediaMIMEType stream:mediaAttachment.mediaInputStream]];
@@ -236,8 +234,11 @@ NSArray *ATLMessagePartsWithMediaAttachmentOffer(ATLMediaAttachment *mediaAttach
     
     // If there's any additional metadata, add it to the message parts on the third index.
     if (mediaAttachment.metadataInputStream) {
-        
+        //parth
+        //parth//
         [messageParts addObject:[LYRMessagePart messagePartWithMIMEType:ATLMIMETypeImageoffer stream:mediaAttachment.metadataInputStream]];
+        
+       
         // [messageParts addObject:[LYRMessagePart messagePartWithMIMEType:mediaAttachment.metadataMIMEType stream:mediaAttachment.metadataInputStream]];
     }
     
@@ -249,11 +250,6 @@ NSArray *ATLMessagePartsWithMediaAttachmentOffer(ATLMediaAttachment *mediaAttach
     
    
 }
-
-
-
-
-
 
 #pragma mark - Message Parts Utilities
 

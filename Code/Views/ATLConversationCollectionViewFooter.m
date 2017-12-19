@@ -155,6 +155,14 @@ CGFloat const ATLConversationViewFooterUnClusteredPadding = 7;
                                   attribute:NSLayoutAttributeCenterX
                                  multiplier:1
                                    constant:0]];
+    [self addConstraint:
+     [NSLayoutConstraint constraintWithItem:self.timeLabel
+                                  attribute:NSLayoutAttributeCenterY
+                                  relatedBy:0
+                                     toItem:self
+                                  attribute:NSLayoutAttributeCenterY
+                                 multiplier:1
+                                   constant:0]];
            //  [self addConstraint:[NSLayoutConstraint constraintWithItem:self.timeLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1 constant:10]];
            // [self addConstraint:[NSLayoutConstraint constraintWithItem:self.timeLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1 constant:10]];
 }

@@ -75,7 +75,9 @@ static CGFloat const ATLButtonHeight = 28.0f;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         
         NSBundle *resourcesBundle = ATLResourcesBundle();
-        self.leftAccessoryImage = [UIImage imageNamed:@"camera_dark" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
+        //camera_darkNew.png
+//        self.leftAccessoryImage = [UIImage imageNamed:@"camera_dark" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
+         self.leftAccessoryImage = [UIImage imageNamed:@"camera_darkNew.png" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
         self.rightAccessoryImage = [UIImage imageNamed:@"location_dark" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
         //parth
         //hide display right accessory image
@@ -147,8 +149,9 @@ static CGFloat const ATLButtonHeight = 28.0f;
         leftButtonFrame.size.width = 0;
     } else {
         //parth
-        //+ 3
-        leftButtonFrame.size.width = ATLLeftAccessoryButtonWidth + 3;
+        //- 15
+        //leftButtonFrame.size.width = ATLLeftAccessoryButtonWidth - 15 ;
+        leftButtonFrame.size.width = 22 ;
     }
     
     // This makes the input accessory view work with UISplitViewController to manage the frame width.
@@ -158,9 +161,12 @@ static CGFloat const ATLButtonHeight = 28.0f;
         frame.origin.x = windowRect.origin.x;
     }
     //parth
-    //+ 3
-    leftButtonFrame.size.height = ATLButtonHeight + 3 ;
-    leftButtonFrame.origin.x = ATLLeftButtonHorizontalMargin;
+    //- 5
+   // leftButtonFrame.size.height = ATLButtonHeight - 5;
+    leftButtonFrame.size.height = 22;
+    //parth
+    //+ 8
+    leftButtonFrame.origin.x = ATLLeftButtonHorizontalMargin + 8;
 
     if (self.rightAccessoryButtonFont && (self.textInputView.text.length || !self.displaysRightAccessoryImage)) {
         rightButtonFrame.size.width = CGRectIntegral([ATLLocalizedString(@"atl.messagetoolbar.send.key", self.rightAccessoryButtonTitle, nil) boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:0 attributes:@{NSFontAttributeName: self.rightAccessoryButtonFont} context:nil]).size.width + ATLRightAccessoryButtonPadding;
@@ -169,12 +175,16 @@ static CGFloat const ATLButtonHeight = 28.0f;
         rightButtonFrame.size.width = ATLRightAccessoryButtonDefaultWidth;
     }
    
-    rightButtonFrame.size.height = ATLButtonHeight ;
+    rightButtonFrame.size.height = ATLButtonHeight + 8;
     rightButtonFrame.origin.x = CGRectGetWidth(frame) - CGRectGetWidth(rightButtonFrame) - ATLRightButtonHorizontalMargin;
 
-    textViewFrame.origin.x = CGRectGetMaxX(leftButtonFrame) + ATLLeftButtonHorizontalMargin;
+    //parth
+    //+ 5
+    textViewFrame.origin.x = CGRectGetMaxX(leftButtonFrame) + ATLLeftButtonHorizontalMargin + 3;
     textViewFrame.origin.y = self.verticalMargin;
-    textViewFrame.size.width = CGRectGetMinX(rightButtonFrame) - CGRectGetMinX(textViewFrame) - ATLRightButtonHorizontalMargin;
+    //parth
+    //+ 5
+    textViewFrame.size.width = CGRectGetMinX(rightButtonFrame) - CGRectGetMinX(textViewFrame) - ATLRightButtonHorizontalMargin + 3  ;
 
     self.dummyTextView.attributedText = self.textInputView.attributedText;
     CGSize fittedTextViewSize = [self.dummyTextView sizeThatFits:CGSizeMake(CGRectGetWidth(textViewFrame), MAXFLOAT)];
@@ -191,8 +201,9 @@ static CGFloat const ATLButtonHeight = 28.0f;
         self.buttonCenterY = (CGRectGetHeight(frame) - CGRectGetHeight(leftButtonFrame)) / 2;
     }
     leftButtonFrame.origin.y = frame.size.height - leftButtonFrame.size.height - self.buttonCenterY;
-    rightButtonFrame.origin.y = frame.size.height - rightButtonFrame.size.height - self.buttonCenterY;
-    
+    //parth
+    //rightButtonFrame.origin.y = frame.size.height - rightButtonFrame.size.height - self.buttonCenterY;
+    rightButtonFrame.origin.y = frame.size.height - rightButtonFrame.size.height -  self.buttonCenterY + 8;
     BOOL heightChanged = CGRectGetHeight(textViewFrame) != CGRectGetHeight(self.textInputView.frame);
 
     self.leftAccessoryButton.frame = leftButtonFrame;
