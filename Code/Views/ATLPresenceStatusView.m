@@ -55,13 +55,20 @@ CGFloat const ATLMEndAngle = M_PI*2;
 - (void)setMode:(ATLMPresenceStatusViewMode)mode
 {
     _mode = mode;
-    [self setNeedsDisplay];
+    //parth
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setNeedsDisplay];
+    });
+   // [self setNeedsDisplay];
 }
 
 - (void)setStatusColor:(UIColor *)statusColor
 {
     _statusColor = statusColor;
-    [self setNeedsDisplay];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setNeedsDisplay];
+    });
+    //[self setNeedsDisplay];
 }
 
 - (void)setStatusBackgroundColor:(UIColor *)statusBackgroundColor

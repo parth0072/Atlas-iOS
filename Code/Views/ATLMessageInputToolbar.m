@@ -166,7 +166,7 @@ static CGFloat const ATLButtonHeight = 28.0f;
     leftButtonFrame.size.height = 22;
     //parth
     //+ 8
-    leftButtonFrame.origin.x = ATLLeftButtonHorizontalMargin + 8;
+    leftButtonFrame.origin.x = ATLLeftButtonHorizontalMargin + 4;
 
     if (self.rightAccessoryButtonFont && (self.textInputView.text.length || !self.displaysRightAccessoryImage)) {
         rightButtonFrame.size.width = CGRectIntegral([ATLLocalizedString(@"atl.messagetoolbar.send.key", self.rightAccessoryButtonTitle, nil) boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:0 attributes:@{NSFontAttributeName: self.rightAccessoryButtonFont} context:nil]).size.width + ATLRightAccessoryButtonPadding;
@@ -176,15 +176,18 @@ static CGFloat const ATLButtonHeight = 28.0f;
     }
    
     rightButtonFrame.size.height = ATLButtonHeight + 8;
-    rightButtonFrame.origin.x = CGRectGetWidth(frame) - CGRectGetWidth(rightButtonFrame) - ATLRightButtonHorizontalMargin;
+    //parth
+    //+ 3
+    rightButtonFrame.origin.x = CGRectGetWidth(frame) - CGRectGetWidth(rightButtonFrame) - ATLRightButtonHorizontalMargin - 3;
 
     //parth
     //+ 5
     textViewFrame.origin.x = CGRectGetMaxX(leftButtonFrame) + ATLLeftButtonHorizontalMargin + 3;
+    
     textViewFrame.origin.y = self.verticalMargin;
     //parth
     //+ 5
-    textViewFrame.size.width = CGRectGetMinX(rightButtonFrame) - CGRectGetMinX(textViewFrame) - ATLRightButtonHorizontalMargin + 3  ;
+    textViewFrame.size.width = CGRectGetMinX(rightButtonFrame) - CGRectGetMinX(textViewFrame) - ATLRightButtonHorizontalMargin  ;
 
     self.dummyTextView.attributedText = self.textInputView.attributedText;
     CGSize fittedTextViewSize = [self.dummyTextView sizeThatFits:CGSizeMake(CGRectGetWidth(textViewFrame), MAXFLOAT)];
@@ -203,7 +206,7 @@ static CGFloat const ATLButtonHeight = 28.0f;
     leftButtonFrame.origin.y = frame.size.height - leftButtonFrame.size.height - self.buttonCenterY;
     //parth
     //rightButtonFrame.origin.y = frame.size.height - rightButtonFrame.size.height - self.buttonCenterY;
-    rightButtonFrame.origin.y = frame.size.height - rightButtonFrame.size.height -  self.buttonCenterY + 8;
+    rightButtonFrame.origin.y = frame.size.height - rightButtonFrame.size.height -  self.buttonCenterY + 6;
     BOOL heightChanged = CGRectGetHeight(textViewFrame) != CGRectGetHeight(self.textInputView.frame);
 
     self.leftAccessoryButton.frame = leftButtonFrame;
