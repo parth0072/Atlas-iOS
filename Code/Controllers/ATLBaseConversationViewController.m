@@ -87,7 +87,7 @@ static CGFloat const ATLMaxScrollDistanceFromBottom = 150;
     self.view.inputAccessoryView = self.messageInputToolbar;
     //parth
     self.messageInputToolbar.containerViewController = self;
-   
+    
     
     // Add typing indicator
     self.typingIndicatorController = [[ATLTypingIndicatorViewController alloc] init];

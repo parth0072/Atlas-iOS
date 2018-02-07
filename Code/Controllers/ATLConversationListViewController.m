@@ -28,7 +28,11 @@ static NSString *const ATLVideoMIMETypePlaceholderText = @"Attachment: Video";
 static NSString *const ATLLocationMIMETypePlaceholderText = @"Attachment: Location";
 static NSString *const ATLGIFMIMETypePlaceholderText = @"Attachment: GIF";
 //parth
+//"\(UserDefaults.standard.value(forKey: "userFirstname") as! String) has shared a Prioritii offer"
+
 static NSString *const ATLOfferMIMETypePlaceholderText = @"Attachment:Prioritii Offer";
+//static NSString *ATLOfferMIMETypePlaceholderText;
+
 static NSInteger const ATLConverstionListPaginationWindow = 30;
 static CGFloat const ATLConversationListLoadMoreConversationsDistanceThreshold = 200.0f;
 static CGFloat const ATLConversationListLoadingMoreConversationsIndicatorViewWidth = 30.0f;
@@ -127,6 +131,9 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
 {
     [super viewDidLoad];
     //parth
+   
+    //(UserDefaults.standard.value(forKey: "userFirstname") as! String) has shared a Prioritii offer"
+   // ATLOfferMIMETypePlaceholderText = [NSString stringWithFormat:@"%@ has shared a Prioritii offer",[NSUserDefaults.standardUserDefaults valueForKey:@"userFirstname"]];
     
     self.tableView.separatorColor = [UIColor colorWithRed:30.0/255.0 green:30.0/255.0 blue:30.0/255.0 alpha:1];
  

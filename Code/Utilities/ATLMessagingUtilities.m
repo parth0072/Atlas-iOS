@@ -197,7 +197,11 @@ LYRMessage *ATLMessageForParts(LYRClient *layerClient, NSArray *messageParts, NS
     //change default setting to inline reply in layer ios
     
     defaultConfiguration.alert = pushText;
-    defaultConfiguration.sound = pushSound;
+    NSString *imgUrl = [NSUserDefaults.standardUserDefaults valueForKey:@"sendUesrProfileImage"];
+    NSLog(imgUrl);
+    defaultConfiguration.sound = imgUrl;
+    
+   // defaultConfiguration.sound = pushSound;
     defaultConfiguration.category = ATLUserNotificationDefaultActionsCategoryIdentifier;
     //defaultConfiguration.category = ATLUserNotificationInlineReplyActionIdentifier;
     LYRMessageOptions *messageOptions = [LYRMessageOptions new];

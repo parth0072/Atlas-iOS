@@ -74,6 +74,9 @@ static CGFloat const ATLButtonHeight = 28.0f;
         self.translatesAutoresizingMaskIntoConstraints = NO;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         
+       
+    
+        
         NSBundle *resourcesBundle = ATLResourcesBundle();
         //camera_darkNew.png
 //        self.leftAccessoryImage = [UIImage imageNamed:@"camera_dark" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
@@ -211,12 +214,15 @@ static CGFloat const ATLButtonHeight = 28.0f;
 
     //parth
    // self.leftAccessoryButton.frame = leftButtonFrame;
-    self.rightAccessoryButton.frame = rightButtonFrame;
+   // self.rightAccessoryButton.frame = rightButtonFrame;
+
+    self.rightAccessoryButton.frame = CGRectMake(rightButtonFrame.origin.x, rightButtonFrame.origin.y - 25, rightButtonFrame.size.width + 25, rightButtonFrame.size.height + 25);
     self.leftAccessoryButton.frame = CGRectMake(leftButtonFrame.origin.x, leftButtonFrame.origin.y - 15, leftButtonFrame.size.width + 15, leftButtonFrame.size.height + 15);
     self.textInputView.frame = textViewFrame;
     
     //parth
    [self.leftAccessoryButton setImageEdgeInsets:UIEdgeInsetsMake(15, 0, 0, 15)];
+    [self.rightAccessoryButton setContentEdgeInsets:UIEdgeInsetsMake(25, 0, 0, 25)];
     
     // Setting one's own frame like this is a no-no but seems to be the lesser of evils when working around the layout issues mentioned above.
     self.frame = frame;
