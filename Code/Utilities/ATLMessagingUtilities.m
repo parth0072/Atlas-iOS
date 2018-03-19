@@ -222,6 +222,7 @@ LYRMessage *ATLMessageForParts(LYRClient *layerClient, NSArray *messageParts, NS
 
 NSArray *ATLMessagePartsWithMediaAttachmentOffer(ATLMediaAttachment *mediaAttachment)
 {
+    //parth
     NSMutableArray *messageParts = [NSMutableArray array];
     if (!mediaAttachment.mediaInputStream) {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Cannot create an LYRMessagePart with `nil` mediaInputStream." userInfo:nil];
@@ -240,6 +241,9 @@ NSArray *ATLMessagePartsWithMediaAttachmentOffer(ATLMediaAttachment *mediaAttach
     if (mediaAttachment.metadataInputStream) {
         //parth
         //parth//
+       
+      
+
         [messageParts addObject:[LYRMessagePart messagePartWithMIMEType:ATLMIMETypeImageoffer stream:mediaAttachment.metadataInputStream]];
         
        

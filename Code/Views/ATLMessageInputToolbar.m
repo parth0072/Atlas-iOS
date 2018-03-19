@@ -217,11 +217,13 @@ static CGFloat const ATLButtonHeight = 28.0f;
    // self.rightAccessoryButton.frame = rightButtonFrame;
 
     self.rightAccessoryButton.frame = CGRectMake(rightButtonFrame.origin.x, rightButtonFrame.origin.y - 25, rightButtonFrame.size.width + 25, rightButtonFrame.size.height + 25);
-    self.leftAccessoryButton.frame = CGRectMake(leftButtonFrame.origin.x, leftButtonFrame.origin.y - 15, leftButtonFrame.size.width + 15, leftButtonFrame.size.height + 15);
+    self.leftAccessoryButton.frame = CGRectMake(leftButtonFrame.origin.x - 15, leftButtonFrame.origin.y - 15, leftButtonFrame.size.width + 25, leftButtonFrame.size.height + 35);
     self.textInputView.frame = textViewFrame;
     
     //parth
-   [self.leftAccessoryButton setImageEdgeInsets:UIEdgeInsetsMake(15, 0, 0, 15)];
+    //[self.leftAccessoryButton setImageEdgeInsets:UIEdgeInsetsMake(top, ////left, bottom, right)]
+    //Fixed touch point
+   [self.leftAccessoryButton setImageEdgeInsets:UIEdgeInsetsMake(15, 15 , 20, 10)];
     [self.rightAccessoryButton setContentEdgeInsets:UIEdgeInsetsMake(25, 0, 0, 25)];
     
     // Setting one's own frame like this is a no-no but seems to be the lesser of evils when working around the layout issues mentioned above.

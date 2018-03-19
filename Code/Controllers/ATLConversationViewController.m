@@ -652,16 +652,24 @@ static NSInteger const ATLPhotoActionSheet = 1000;
         [messageInputToolbar.textInputView resignFirstResponder];
     }
     
-    //parth
+    //parth 
+    
     
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                              delegate:self
                                                     cancelButtonTitle:ATLLocalizedString(@"atl.conversation.toolbar.actionsheet.cancel.key", @"Cancel", nil)
                                                destructiveButtonTitle:nil
-                                                    otherButtonTitles:ATLLocalizedString(@"atl.conversation.toolbar.actionsheet.lastphoto.key", @"Share offer", nil),ATLLocalizedString(@"atl.conversation.toolbar.actionsheet.takephoto.key", @"Take Photo/Video", nil),  ATLLocalizedString(@"atl.conversation.toolbar.actionsheet.library.key", @"Photo/Video Library", nil), @"Share Location",nil];
+                                                    otherButtonTitles:ATLLocalizedString(@"atl.conversation.toolbar.actionsheet.lastphoto.key", @"Go Out", nil),ATLLocalizedString(@"atl.conversation.toolbar.actionsheet.takephoto.key", @"Take Photo/Video", nil),  ATLLocalizedString(@"atl.conversation.toolbar.actionsheet.library.key", @"Photo/Video Library", nil), @"Share Location",nil];
+    
     [actionSheet showInView:self.view];
     actionSheet.tag = ATLPhotoActionSheet;
 }
+
+
+
+
+
+    
 
 - (void)messageInputToolbar:(ATLMessageInputToolbar *)messageInputToolbar didTapRightAccessoryButton:(UIButton *)rightAccessoryButton
 {
@@ -831,6 +839,11 @@ static NSInteger const ATLPhotoActionSheet = 1000;
                 break;
         }
     }
+}
+
+- (void)willPresentActionSheet:(UIActionSheet *)actionSheet
+{
+    
 }
 
 #pragma mark - Image Picking

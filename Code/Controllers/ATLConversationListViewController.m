@@ -30,7 +30,7 @@ static NSString *const ATLGIFMIMETypePlaceholderText = @"Attachment: GIF";
 //parth
 //"\(UserDefaults.standard.value(forKey: "userFirstname") as! String) has shared a Prioritii offer"
 
-static NSString *const ATLOfferMIMETypePlaceholderText = @"Attachment:Prioritii Offer";
+static NSString *const ATLOfferMIMETypePlaceholderText = @"Attachment: Prioritii experience";
 //static NSString *ATLOfferMIMETypePlaceholderText;
 
 static NSInteger const ATLConverstionListPaginationWindow = 30;
@@ -705,6 +705,7 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
     NSString *lastMessageText;
     LYRMessage *lastMessage = conversation.lastMessage;
     LYRMessagePart *messagePart = lastMessage.parts[0];
+    
     if ([messagePart.MIMEType isEqualToString:ATLMIMETypeTextPlain]) {
         lastMessageText = [[NSString alloc] initWithData:messagePart.data encoding:NSUTF8StringEncoding];
     } else if ([messagePart.MIMEType isEqualToString:ATLMIMETypeImageJPEG]) {

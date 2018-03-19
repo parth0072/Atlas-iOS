@@ -164,14 +164,18 @@ NSInteger const kATLSharedCellTag = 1000;
     self.accessibilityLabel = ATLImageAccessibilityLabel;
     
     LYRMessagePart *fullResImagePart = ATLMessagePartForMIMEType(self.message, ATLMIMETypeImageJPEG);
+    
     if (!fullResImagePart) {
         fullResImagePart = ATLMessagePartForMIMEType(self.message, ATLMIMETypeImagePNG);
+        
     }
     
     if (fullResImagePart && ((fullResImagePart.transferStatus == LYRContentTransferAwaitingUpload) || (fullResImagePart.transferStatus == LYRContentTransferUploading))) {
         //[self updateCellWithProgress:fullResImagePart.progress];
     } else {
        // [self.bubbleView updateProgressIndicatorWithProgress:1.0 visible:NO animated:YES];
+        
+        
     }
     
     
@@ -215,6 +219,7 @@ NSInteger const kATLSharedCellTag = 1000;
               // [self updateCellWithProgress:fullResImagePart.progress];
             } else {
                // [weakSelf.bubbleView updateProgressIndicatorWithProgress:1.0 visible:NO animated:YES];
+                
             }
         }
         
