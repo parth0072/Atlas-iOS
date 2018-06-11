@@ -27,6 +27,7 @@
 @property (nonatomic) ATLPresenceStatusView *presenceStatusView;
 @property (nonatomic) NSURLSessionDownloadTask *downloadTask;
 @property (nonatomic) NSURL *remoteImageURL;
+@property (nonatomic) NSMutableDictionary *cacheImage;
 
 @end
 
@@ -35,14 +36,15 @@
 NSString *const ATLAvatarViewAccessibilityLabel = @"ATLAvatarViewAccessibilityLabel";
 
 
-+ (NSCache *)sharedImageCache
++ (NSCache *)sharedImageCache1
 {
-    static NSCache *_sharedImageCache;
+    static NSCache *_sharedImageCache1;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedImageCache = [NSCache new];
+        _sharedImageCache1 = [NSCache new];
+        
     });
-    return _sharedImageCache;
+    return _sharedImageCache1;
 }
 
 - (id)init
@@ -199,9 +201,15 @@ NSString *const ATLAvatarViewAccessibilityLabel = @"ATLAvatarViewAccessibilityLa
     
     // Check if image is in cache
     __block NSString *stringURL = imageURL.absoluteString;
-    UIImage *image = [[[self class] sharedImageCache] objectForKey:stringURL];
+    UIImage *uImage = [UIImage imageWithData:[[NSUserDefaults standardUserDefaults] valueForKey:stringURL]];
+    
+    UIImage *image = [[[self class] sharedImageCache1] objectForKey:stringURL];
     if (image) {
         self.imageView.image = image;
+        return;
+    }
+    if (uImage){
+        self.imageView.image = uImage;
         return;
     }
     
@@ -215,7 +223,11 @@ NSString *const ATLAvatarViewAccessibilityLabel = @"ATLAvatarViewAccessibilityLa
         if (!error && location) {
             __block UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:location]];
             if (image) {
-                [[[self class] sharedImageCache] setObject:image forKey:remoteImageURL.absoluteString cost:0];
+                NSData *cData = UIImageJPEGRepresentation(image, 1);
+               // UIImage *cImage = [UIImage imageWithData:cData];
+                [[NSUserDefaults standardUserDefaults] setObject:cData forKey:remoteImageURL.absoluteString];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                [[[self class] sharedImageCache1] setObject:image forKey:remoteImageURL.absoluteString cost:0];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self updateWithImage:image forRemoteImageURL:remoteImageURL];
                 });

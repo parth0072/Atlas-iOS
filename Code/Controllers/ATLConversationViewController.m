@@ -819,6 +819,8 @@ static NSInteger const ATLPhotoActionSheet = 1000;
                 break;
                 
             case 2:
+                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"Camera"];
+                [[NSUserDefaults standardUserDefaults]synchronize];
                 [self displayImagePickerWithSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
                 break;
             
@@ -858,6 +860,11 @@ static NSInteger const ATLPhotoActionSheet = 1000;
         picker.delegate = self;
         picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:sourceType];
         picker.sourceType = sourceType;
+        if (@available(iOS 11.0, *)) {
+            picker.imageExportPreset = UIImagePickerControllerImageURLExportPresetCompatible;
+        } else {
+            // Fallback on earlier versions
+        }
         picker.videoQuality = UIImagePickerControllerQualityTypeHigh;
         [self.navigationController presentViewController:picker animated:YES completion:nil];
     }
@@ -886,16 +893,19 @@ static NSInteger const ATLPhotoActionSheet = 1000;
     if (info[UIImagePickerControllerMediaURL]) {
         // Video recorded within the app or was picked and edited in
         // the image picker.
+        
         NSURL *moviePath = [NSURL fileURLWithPath:(NSString *)[[info objectForKey:UIImagePickerControllerMediaURL] path]];
         mediaAttachment = [ATLMediaAttachment mediaAttachmentWithFileURL:moviePath thumbnailSize:ATLDefaultThumbnailSize];
-    } else if (info[UIImagePickerControllerReferenceURL]) {
-        // Photo taken or video recorded within the app.
-        mediaAttachment = [ATLMediaAttachment mediaAttachmentWithAssetURL:info[UIImagePickerControllerReferenceURL] thumbnailSize:ATLDefaultThumbnailSize];
-    } else if (info[UIImagePickerControllerOriginalImage]) {
+    }
+//    } else if (info[UIImagePickerControllerReferenceURL]) {
+//        // Photo taken or video recorded within the app.
+//        mediaAttachment = [ATLMediaAttachment mediaAttachmentWithAssetURL:info[UIImagePickerControllerReferenceURL] thumbnailSize:ATLDefaultThumbnailSize];
+//    }
+    else if (info[UIImagePickerControllerOriginalImage]) {
         // Image picked from the image picker.
         mediaAttachment = [ATLMediaAttachment mediaAttachmentWithImage:info[UIImagePickerControllerOriginalImage] metadata:info[UIImagePickerControllerMediaMetadata] thumbnailSize:ATLDefaultThumbnailSize];
     }
-    
+   
     
     else {
         return;

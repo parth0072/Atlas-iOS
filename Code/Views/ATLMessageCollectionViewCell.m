@@ -135,7 +135,7 @@ NSInteger const kATLSharedCellTag = 1000;
         
     }else if ([messagePart.MIMEType isEqualToString:ATLMIMETypeImagePNG]) {
         [self configureBubbleViewForImageContent];
-    } else if ([messagePart.MIMEType isEqualToString:ATLMIMETypeImageGIF]){
+    }else if ([messagePart.MIMEType isEqualToString:ATLMIMETypeImageGIF]){
         [self configureBubbleViewForGIFContent];
     } else if ([messagePart.MIMEType isEqualToString:ATLMIMETypeLocation]) {
         [self configureBubbleViewForLocationContent];
@@ -513,7 +513,7 @@ NSInteger const kATLSharedCellTag = 1000;
     CGSize size = CGSizeZero;
     if ([part.MIMEType isEqualToString:ATLMIMETypeTextPlain]) {
         size = [[self class] cellSizeForTextMessage:message inView:view];
-    } else if ([part.MIMEType isEqualToString:ATLMIMETypeImageJPEG] || [part.MIMEType isEqualToString:ATLMIMETypeImagePNG] || [part.MIMEType isEqualToString:ATLMIMETypeImageGIF]|| [part.MIMEType isEqualToString:ATLMIMETypeVideoMP4]) {
+    } else if ([part.MIMEType isEqualToString:ATLMIMETypeImageJPEG] || [part.MIMEType isEqualToString:ATLMIMETypeImagePNG] || [part.MIMEType isEqualToString:ATLMIMETypeImageGIF]|| [part.MIMEType isEqualToString:ATLMIMETypeVideoMP4] ) {
         size = [[self class] cellSizeForImageMessage:message];
     } else if ([part.MIMEType isEqualToString:ATLMIMETypeLocation]) {
         size.width = ATLMessageBubbleMapWidth;

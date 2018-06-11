@@ -45,6 +45,7 @@ extern NSUInteger const ATLDefaultGIFThumbnailSize;   // 64px
 
 extern NSString *const ATLMIMETypeImageoffer; //@"image/offer";
 
+
 extern NSString *const ATLPasteboardImageKey;
 extern NSString *const ATLImagePreviewWidthKey;
 extern NSString *const ATLImagePreviewHeightKey;
